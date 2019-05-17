@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +14,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -23,27 +26,28 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 
-public class Main extends Application {
+public class Main extends Application implements EventHandler<KeyEvent> {
 
     static Stage window;
     static Color mainMenuColor = new Color(187 / 255f, 173 / 255f, 160 / 255f, 1);
     static Scene scene;
+    private Button playButton = new Button("PLAY");
+    private Button quitButton = new Button("QUIT");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        ArrayList<KeyCode> keys = new ArrayList<>();
         window = primaryStage;
         primaryStage.setTitle("2048 Game");
         Group root = new Group();
-        Button playButton = new Button("PLAY");
         playButton.setTextFill(Color.BLACK);
         playButton.relocate(225, 140);
         playButton.setScaleX(2.5);
         playButton.setScaleY(2);
         playButton.setWrapText(true);
 
-        Button quitButton = new Button("QUIT");
         quitButton.relocate(playButton.getLayoutX(), playButton.getLayoutY() + 100);
         quitButton.setTextFill(Color.BLACK);
         quitButton.setScaleX(2.5);
@@ -56,21 +60,20 @@ public class Main extends Application {
 
 
         playButton.setOnAction(e -> {
+            new Game();
             PlayDisplay.display();
             window = PlayDisplay.playDisplay;
         });
 
         quitButton.setOnAction(e -> {
-            if (window.getScene() == PlayDisplay.getScenePlay()){
-                window.close();
+            if (window.getScene() != scene)
                 window.setScene(scene);
-            }
-            else
-                window.close();
+            window.close();
         });
 
         if (window.getScene().equals(PlayDisplay.getScenePlay()))
             window.setOnCloseRequest(e -> window.setScene(scene));
+
 
         root.getChildren().addAll(playButton, quitButton);
 
@@ -82,4 +85,8 @@ public class Main extends Application {
         launch(args);
     }
 
+    @Override
+    public void handle(KeyEvent event) {
+
+    }
 }
