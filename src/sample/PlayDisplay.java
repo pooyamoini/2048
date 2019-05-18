@@ -2,11 +2,11 @@ package sample;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-public class PlayDisplay {
+class PlayDisplay {
     private static Group root = new Group();
     private static Scene scenePlay;
     private static Scene gameOverScene;
@@ -54,9 +54,10 @@ public class PlayDisplay {
 
     static {
         score.setX(220);
-        score.setScaleX(2);
+        score.setScaleX(1.8);
         score.setY(470);
-        score.setScaleY(2);
+        score.setScaleY(1.8);
+        score.setStroke(Color.BLACK);
         root.getChildren().add(score);
     }
 
@@ -171,14 +172,6 @@ public class PlayDisplay {
                     rectangles[i][j].setFill(COLORS.getColor0());
             }
         }
-    }
-
-    static Rectangle[][] getRectangles() {
-        return rectangles;
-    }
-
-    static Text[][] getLabels() {
-        return labels;
     }
 
     private static void gameIsOver() {

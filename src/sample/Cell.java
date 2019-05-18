@@ -1,22 +1,22 @@
 package sample;
 
-public class Cell {
+class Cell {
 
-    public Cell() {
+    Cell() {
         this.value = 0;
     }
 
     private int value;
 
-    public int getValue() {
+    int getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    void setValue(int value) {
         this.value = value;
     }
 
-    public boolean isEmpty(){
+    boolean isEmpty(){
         return this.value == 0;
     }
 }

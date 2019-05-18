@@ -21,6 +21,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         window = primaryStage;
         primaryStage.setTitle("2048 Game");
         Group root = new Group();
+
         playButton.setTextFill(Color.BLACK);
         playButton.relocate(225, 140);
         playButton.setScaleX(2.5);
@@ -41,7 +42,6 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         playButton.setOnAction(e -> {
             new Game();
             PlayDisplay.display();
-//            window = PlayDisplay.playDisplay;
         });
 
         quitButton.setOnAction(e -> {
