@@ -17,6 +17,7 @@ public class PlayDisplay {
     private static final float RECTANGLE_WEIGHT = 400 / 4.5f;
     private static Rectangle[][] rectangles = new Rectangle[4][4];
     private static Text[][] labels = new Text[4][4];
+    private static Text score = new Text("0");
 
     static {
         for (int i = 0; i < rectangles.length; i++) {
@@ -52,6 +53,14 @@ public class PlayDisplay {
         }
     }
 
+    static {
+        score.setX(230);
+        score.setScaleX(2);
+        score.setY(470);
+        score.setScaleY(2);
+        root.getChildren().add(score);
+    }
+
     static void display() {
 
         scenePlay = new Scene(root, 500, 500);
@@ -72,6 +81,8 @@ public class PlayDisplay {
                 case UP:
                     break;
                 case RIGHT:
+                    Game.getCurrentGame().right();
+                    showNumbers();
                     break;
                 case DOWN:
                     break;
@@ -129,15 +140,24 @@ public class PlayDisplay {
                 }
             }
         }
+        score.setText("Score: ".concat(Integer.toString(Game.getCurrentGame().getScore())));
         initializeEmpty();
     }
 
-    private static void initializeEmpty(){
+    private static void initializeEmpty() {
         for (int i = 0; i < Game.getCurrentGame().getBoard().length; i++) {
             for (int j = 0; j < Game.getCurrentGame().getBoard()[i].length; j++) {
                 if (Game.getCurrentGame().getBoard()[i][j].isEmpty())
                     rectangles[i][j].setFill(COLORS.getColor0());
             }
         }
+    }
+
+    static Rectangle[][] getRectangles() {
+        return rectangles;
+    }
+
+    static Text[][] getLabels() {
+        return labels;
     }
 }
