@@ -2,12 +2,12 @@ package sample;
 
 import java.util.Random;
 
-public class Game {
+class Game {
     private static Game currentGame;
     private Cell[][] board;
     private int score;
 
-    public Game() {
+    Game() {
         board = new Cell[4][4];
         initBoard();
         initializeBoard();
@@ -147,7 +147,7 @@ public class Game {
                     continue;
                 int value = this.board[i][j].getValue();
                 int temp = i + 1;
-                while (true){
+                while (true) {
                     if (!this.board[temp][j].isEmpty())
                         break;
                     this.board[temp][j].setValue(value);
@@ -162,7 +162,7 @@ public class Game {
             for (int j = 0; j < this.board[i].length; j++) {
                 if ((this.board[i][j]).isEmpty())
                     continue;
-                if (this.board[i][j].getValue() == this.board[i + 1][j].getValue()){
+                if (this.board[i][j].getValue() == this.board[i + 1][j].getValue()) {
                     this.board[i + 1][j].setValue(2 * this.board[i][j].getValue());
                     this.score += this.board[i][j].getValue();
                     this.board[i][j].setValue(0);
@@ -190,5 +190,16 @@ public class Game {
 
     int getScore() {
         return score;
+    }
+
+    boolean gameIsOver() {
+        int counter = 0;
+        for (Cell[] cells : this.board) {
+            for (Cell cell : cells) {
+                if (!cell.isEmpty())
+                    counter++;
+            }
+        }
+        return counter >= 16;
     }
 }

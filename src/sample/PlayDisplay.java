@@ -8,8 +8,10 @@ import javafx.stage.Stage;
 
 public class PlayDisplay {
     private static Group root = new Group();
-    static Stage playDisplay = new Stage();
     private static Scene scenePlay;
+    private static Scene gameOverScene;
+    private static Group rootGameOver;
+    private static Text gameOverText;
     private static final float RECTANGLE_HEIGHT = 400 / 4.5f;
     private static final float RECTANGLE_WEIGHT = 400 / 4.5f;
     private static Rectangle[][] rectangles = new Rectangle[4][4];
@@ -58,11 +60,23 @@ public class PlayDisplay {
         root.getChildren().add(score);
     }
 
+    static {
+        rootGameOver = new Group();
+        gameOverScene = new Scene(rootGameOver, 500, 500);
+        gameOverText = new Text();
+        gameOverText.setX(210);
+        gameOverText.setY(260);
+        gameOverText.setScaleX(3);
+        gameOverText.setScaleY(3);
+        gameOverScene.setFill(COLORS.getColorMainMenu());
+        rootGameOver.getChildren().add(gameOverText);
+    }
+
     static void display() {
 
         scenePlay = new Scene(root, 500, 500);
         scenePlay.setFill(COLORS.getColorMainMenu());
-        playDisplay.setScene(scenePlay);
+        Main.window.setScene(scenePlay);
 
         Main.window.setOnCloseRequest(e -> {
             Game.setCurrentGameNull();
@@ -90,11 +104,11 @@ public class PlayDisplay {
             }
         });
 
+        gameIsOver();
+
         scenePlay.setOnKeyReleased(event -> showNumbers());
 
         showNumbers();
-
-        playDisplay.show();
     }
 
 
@@ -165,5 +179,18 @@ public class PlayDisplay {
 
     static Text[][] getLabels() {
         return labels;
+    }
+
+    private static void gameIsOver() {
+        if (Game.getCurrentGame().gameIsOver()) {
+            Main.window.setScene(gameOverScene);
+            gameOverText.setText("Game is Over\n\n\n");
+            Text gameOverScoreText = new Text("Score is : ".concat(Integer.toString(Game.getCurrentGame().getScore())));
+            gameOverScoreText.setX(gameOverScene.getWidth() / 2 - 40);
+            gameOverScoreText.setY(gameOverScene.getHeight() / 2 + 100);
+            gameOverScoreText.setScaleX(2.1);
+            gameOverScoreText.setScaleY(2.1);
+            rootGameOver.getChildren().add(gameOverScoreText);
+        }
     }
 }

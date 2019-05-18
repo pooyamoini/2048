@@ -41,7 +41,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         playButton.setOnAction(e -> {
             new Game();
             PlayDisplay.display();
-            window = PlayDisplay.playDisplay;
+//            window = PlayDisplay.playDisplay;
         });
 
         quitButton.setOnAction(e -> {
