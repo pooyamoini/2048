@@ -1,10 +1,7 @@
 package sample;
 
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -54,7 +51,7 @@ public class PlayDisplay {
     }
 
     static {
-        score.setX(230);
+        score.setX(220);
         score.setScaleX(2);
         score.setY(470);
         score.setScaleY(2);
@@ -64,7 +61,7 @@ public class PlayDisplay {
     static void display() {
 
         scenePlay = new Scene(root, 500, 500);
-        scenePlay.setFill(Main.mainMenuColor);
+        scenePlay.setFill(COLORS.getColorMainMenu());
         playDisplay.setScene(scenePlay);
 
         Main.window.setOnCloseRequest(e -> {
@@ -75,16 +72,20 @@ public class PlayDisplay {
         scenePlay.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case LEFT:
+                case A:
                     Game.getCurrentGame().left();
-                    showNumbers();
                     break;
                 case UP:
+                case W:
+                    Game.getCurrentGame().up();
                     break;
                 case RIGHT:
+                case D:
                     Game.getCurrentGame().right();
-                    showNumbers();
                     break;
                 case DOWN:
+                case S:
+                    Game.getCurrentGame().down();
                     break;
             }
         });
@@ -136,6 +137,11 @@ public class PlayDisplay {
                         case 512:
                             rectangles[i][j].setFill(COLORS.getColor512());
                             break;
+                        case 1024:
+                            rectangles[i][j].setFill(COLORS.getColor1024());
+                            break;
+                        case 2048:
+                            rectangles[i][j].setFill(COLORS.getColor2048());
                     }
                 }
             }

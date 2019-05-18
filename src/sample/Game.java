@@ -41,34 +41,32 @@ public class Game {
     }
 
     void left() {
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (j == 0 || this.board[i][j].isEmpty())
+        for (Cell[] cells1 : this.board) {
+            for (int j = 0; j < cells1.length; j++) {
+                if (j == 0 || cells1[j].isEmpty())
                     continue;
                 int temp = j;
-                int value = this.board[i][j].getValue();
+                int value = cells1[j].getValue();
                 temp--;
                 while (true) {
-                    if (!this.board[i][temp].isEmpty())
+                    if (!cells1[temp].isEmpty())
                         break;
-                    this.board[i][temp + 1].setValue(0);
-                    this.board[i][temp].setValue(value);
-                    PlayDisplay.getLabels()[i][j].setText(Integer.toString(this.board[i][j].getValue()));
+                    cells1[temp + 1].setValue(0);
+                    cells1[temp].setValue(value);
                     if (temp == 0)
                         break;
                     temp--;
                 }
             }
         }
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = this.board[i].length - 1; j >= 0; j--) {
-                if (j == 0 || this.board[i][j].isEmpty())
+        for (Cell[] cells : this.board) {
+            for (int j = cells.length - 1; j >= 0; j--) {
+                if (j == 0 || cells[j].isEmpty())
                     continue;
-                if (this.board[i][j].getValue() == this.board[i][j - 1].getValue()) {
-                    this.board[i][j - 1].setValue(2 * this.board[i][j].getValue());
-                    PlayDisplay.getLabels()[i][j].setText(Integer.toString(2 * this.board[i][j].getValue()));
-                    this.score += (2 * this.board[i][j].getValue());
-                    this.board[i][j].setValue(0);
+                if (cells[j].getValue() == cells[j - 1].getValue()) {
+                    cells[j - 1].setValue(2 * cells[j].getValue());
+                    this.score += (2 * cells[j].getValue());
+                    cells[j].setValue(0);
                 }
 
             }
@@ -77,30 +75,63 @@ public class Game {
     }
 
     void right() {
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (j == 3 || this.board[i][j].isEmpty())
+        for (Cell[] cells : this.board) {
+            for (int j = 0; j < cells.length; j++) {
+                if (j == 3 || cells[j].isEmpty())
                     continue;
                 int temp = j;
-                int value = this.board[i][j].getValue();
-                temp ++;
-                while (true){
-                    if (!this.board[i][temp].isEmpty())
+                int value = cells[j].getValue();
+                temp++;
+                while (true) {
+                    if (!cells[temp].isEmpty())
                         break;
-                    this.board[i][temp - 1].setValue(0);
-                    this.board[i][temp].setValue(value);
+                    cells[temp - 1].setValue(0);
+                    cells[temp].setValue(value);
                     if (temp == 3)
                         break;
                     temp++;
                 }
             }
         }
+        for (Cell[] cells : this.board) {
+            for (int j = 0; j < cells.length; j++) {
+                if (j == 3 || cells[j].isEmpty())
+                    continue;
+                if (cells[j].getValue() == cells[j + 1].getValue()) {
+                    cells[j + 1].setValue(2 * cells[j + 1].getValue());
+                    this.score += 2 * cells[j].getValue();
+                    cells[j].setValue(0);
+                }
+            }
+        }
+        pickRandom();
+    }
+
+    void up() {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
-                if (j == 3 || this.board[i][j].isEmpty())
+                if (i == 0 || this.board[i][j].isEmpty())
                     continue;
-                if (this.board[i][j].getValue() == this.board[i][j + 1].getValue()){
-                    this.board[i][j + 1].setValue(2 * this.board[i][j + 1].getValue());
+                int value = this.board[i][j].getValue();
+                int temp = i;
+                temp--;
+                while (true) {
+                    if (!this.board[temp][j].isEmpty())
+                        break;
+                    this.board[temp + 1][j].setValue(0);
+                    this.board[temp][j].setValue(value);
+                    if (temp == 0)
+                        break;
+                    temp--;
+                }
+            }
+        }
+        for (int i = this.board.length - 1; i >= 0; i--) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                if (i == 0 || this.board[i][j].isEmpty())
+                    continue;
+                if (this.board[i][j].getValue() == this.board[i - 1][j].getValue()) {
+                    this.board[i - 1][j].setValue(2 * this.board[i][j].getValue());
                     this.score += 2 * this.board[i][j].getValue();
                     this.board[i][j].setValue(0);
                 }
@@ -109,12 +140,36 @@ public class Game {
         pickRandom();
     }
 
-    void up() {
-
-    }
-
     void down() {
-
+        for (int i = 0; i < this.board.length - 1; i++) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                if (this.board[i][j].isEmpty())
+                    continue;
+                int value = this.board[i][j].getValue();
+                int temp = i + 1;
+                while (true){
+                    if (!this.board[temp][j].isEmpty())
+                        break;
+                    this.board[temp][j].setValue(value);
+                    this.board[temp - 1][j].setValue(0);
+                    if (temp == 3)
+                        break;
+                    temp++;
+                }
+            }
+        }
+        for (int i = 0; i < this.board.length - 1; i++) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                if ((this.board[i][j]).isEmpty())
+                    continue;
+                if (this.board[i][j].getValue() == this.board[i + 1][j].getValue()){
+                    this.board[i + 1][j].setValue(2 * this.board[i][j].getValue());
+                    this.score += this.board[i][j].getValue();
+                    this.board[i][j].setValue(0);
+                }
+            }
+        }
+        pickRandom();
     }
 
     private void pickRandom() {
