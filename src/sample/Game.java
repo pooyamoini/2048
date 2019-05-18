@@ -22,16 +22,8 @@ public class Game {
     }
 
     private void initializeBoard() {
-        int randX1 = Math.abs(new Random().nextInt(4));
-        int randY1 = Math.abs(new Random().nextInt(4));
-        int randX2 = Math.abs(new Random().nextInt(4));
-        int randY2 = Math.abs(new Random().nextInt(4));
-        this.board[randX1][randY1].setValue(2);
-        while (!this.board[randX2][randY2].isEmpty()) {
-            randX2 = Math.abs(new Random().nextInt(4));
-            randY2 = Math.abs(new Random().nextInt(4));
-        }
-        this.board[randX2][randY2].setValue(4);
+        this.board[1][3].setValue(2);
+        this.board[2][2].setValue(4);
     }
 
     static Game getCurrentGame() {
@@ -76,6 +68,7 @@ public class Game {
                 }
             }
         }
+        pickRandom();
     }
 
     void right() {
@@ -88,5 +81,21 @@ public class Game {
 
     void down() {
 
+    }
+
+    private void pickRandom() {
+        int x = Math.abs(new Random().nextInt(4));
+        int y = Math.abs(new Random().nextInt(4));
+        while (!this.board[x][y].isEmpty()) {
+            x = Math.abs(new Random().nextInt(4));
+            y = Math.abs(new Random().nextInt(4));
+        }
+        switch (new Random().nextInt() % 2){
+            case 0:
+                this.board[x][y].setValue(2);
+                return;
+            case 1:
+                this.board[x][y].setValue(4);
+        }
     }
 }

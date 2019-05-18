@@ -67,15 +67,13 @@ public class PlayDisplay {
             switch (event.getCode()) {
                 case LEFT:
                     Game.getCurrentGame().left();
+                    showNumbers();
                     break;
                 case UP:
-                    Main.window.close();
                     break;
                 case RIGHT:
-                    Main.window.close();
                     break;
                 case DOWN:
-                    Main.window.close();
                     break;
             }
         });
