@@ -49,22 +49,13 @@ public class Game {
                     continue;
                 int temp = j;
                 int value = board[i][j].getValue();
-                j--;
-                while (j >= 0 || board[i][j].isEmpty()) {
-                    board[i][j + 1].setValue(0);
-                    board[i][j].setValue(value);
-                    j--;
-                }
-                j = temp;
-            }
-        }
-        for (int i = 0; i < board.length; i++) {
-            for (int j = board[i].length - 1; j >= 0; j--) {
-                if (j == 0 || board[i][j].isEmpty())
-                    continue;
-                if (board[i][j].getValue() == board[i][j - 1].getValue()) {
-                    board[i][j].setValue(0);
-                    board[i][j - 1].setValue(2 * board[i][j].getValue());
+                temp--;
+                while (board[i][temp].isEmpty()) {
+                    board[i][temp + 1].setValue(0);
+                    board[i][temp].setValue(value);
+                    if (temp == 0)
+                        break;
+                    temp--;
                 }
             }
         }
@@ -90,7 +81,7 @@ public class Game {
             x = Math.abs(new Random().nextInt(4));
             y = Math.abs(new Random().nextInt(4));
         }
-        switch (new Random().nextInt() % 2){
+        switch (new Random().nextInt() % 2) {
             case 0:
                 this.board[x][y].setValue(2);
                 return;
