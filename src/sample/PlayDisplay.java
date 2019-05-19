@@ -124,6 +124,10 @@ class PlayDisplay {
                 root.getChildren().remove(labels[i][j]);
                 if (!Game.getCurrentGame().getBoard()[i][j].isEmpty()) {
                     labels[i][j].setText(Integer.toString(Game.getCurrentGame().getBoard()[i][j].getValue()));
+                    if (labels[i][j].getText().length() == 3)
+                        labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WEIGHT / 2 - 3 - 8);
+                    else if (labels[i][j].getText().length() == 2)
+                        labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WEIGHT / 2 - 3 - 5);
                     root.getChildren().add(labels[i][j]);
                     switch (Game.getCurrentGame().getBoard()[i][j].getValue()) {
                         case 2:

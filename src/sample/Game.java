@@ -158,7 +158,7 @@ class Game {
         boolean toReturn = false;
         for (Cell[] cells : board) {
             for (int j = 0; j < cells.length; j++) {
-                if (j == 3 || cells[j].isEmpty())
+                if (j == cells.length - 1 || cells[j].isEmpty())
                     continue;
                 int temp = j;
                 int value = cells[j].getValue();
@@ -169,7 +169,7 @@ class Game {
                     cells[temp - 1].setValue(0);
                     cells[temp].setValue(value);
                     toReturn = true;
-                    if (temp == 3)
+                    if (temp == cells.length - 1)
                         break;
                     temp++;
                 }
@@ -182,7 +182,7 @@ class Game {
         boolean toReturn = false;
         for (Cell[] cells : board) {
             for (int j = 0; j < cells.length; j++) {
-                if (j == 3 || cells[j].isEmpty())
+                if (j == cells.length - 1 || cells[j].isEmpty())
                     continue;
                 if (cells[j].getValue() == cells[j + 1].getValue()) {
                     if (cells[j + 1].isProductive() || cells[j].isProductive())
@@ -276,7 +276,7 @@ class Game {
                     board[temp][j].setValue(value);
                     board[temp - 1][j].setValue(0);
                     toReturn = true;
-                    if (temp == 3)
+                    if (temp == board[temp].length - 1)
                         break;
                     temp++;
                 }
