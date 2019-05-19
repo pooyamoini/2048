@@ -61,13 +61,13 @@ class Game {
     void right() {
         boolean doIt = false;
         while (true) {
-            if (simpleRight())
+            if (simpleRight(this.board))
                 doIt = true;
-            if (shiftRight())
+            if (shiftRight(this.board))
                 doIt = true;
-            if (simpleRight())
+            if (simpleRight(this.board))
                 doIt = true;
-            if (!shiftRight())
+            if (!shiftRight(this.board))
                 break;
         }
         if (doIt)
@@ -78,13 +78,13 @@ class Game {
     void up() {
         boolean doIt = false;
         while (true) {
-            if (simpleUp())
+            if (simpleUp(this.board))
                 doIt = true;
-            if (shiftUp())
+            if (shiftUp(this.board))
                 doIt = true;
-            if (simpleUp())
+            if (simpleUp(this.board))
                 doIt = true;
-            if (!shiftUp())
+            if (!shiftUp(this.board))
                 break;
         }
         if (doIt)
@@ -95,13 +95,13 @@ class Game {
     void down() {
         boolean doIt = false;
         while (true) {
-            if (simpleDown())
+            if (simpleDown(this.board))
                 doIt = true;
-            if (shiftDown())
+            if (shiftDown(this.board))
                 doIt = true;
-            if (simpleDown())
+            if (simpleDown(this.board))
                 doIt = true;
-            if (!shiftDown())
+            if (!shiftDown(this.board))
                 break;
         }
         if (doIt)
@@ -154,9 +154,9 @@ class Game {
         return toReturn;
     }
 
-    private boolean shiftRight() {
+    private boolean shiftRight(Cell[][] board) {
         boolean toReturn = false;
-        for (Cell[] cells : this.board) {
+        for (Cell[] cells : board) {
             for (int j = 0; j < cells.length; j++) {
                 if (j == 3 || cells[j].isEmpty())
                     continue;
@@ -178,9 +178,9 @@ class Game {
         return toReturn;
     }
 
-    private boolean simpleRight() {
+    private boolean simpleRight(Cell[][] board) {
         boolean toReturn = false;
-        for (Cell[] cells : this.board) {
+        for (Cell[] cells : board) {
             for (int j = 0; j < cells.length; j++) {
                 if (j == 3 || cells[j].isEmpty())
                     continue;
@@ -198,20 +198,20 @@ class Game {
         return toReturn;
     }
 
-    private boolean shiftUp() {
+    private boolean shiftUp(Cell[][] board) {
         boolean toReturn = false;
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (i == 0 || this.board[i][j].isEmpty())
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (i == 0 || board[i][j].isEmpty())
                     continue;
-                int value = this.board[i][j].getValue();
+                int value = board[i][j].getValue();
                 int temp = i;
                 temp--;
                 while (true) {
-                    if (!this.board[temp][j].isEmpty())
+                    if (!board[temp][j].isEmpty())
                         break;
-                    this.board[temp + 1][j].setValue(0);
-                    this.board[temp][j].setValue(value);
+                    board[temp + 1][j].setValue(0);
+                    board[temp][j].setValue(value);
                     toReturn = true;
                     if (temp == 0)
                         break;
@@ -222,59 +222,59 @@ class Game {
         return toReturn;
     }
 
-    private boolean simpleUp() {
+    private boolean simpleUp(Cell[][] board) {
         boolean toReturn = false;
-        for (int i = this.board.length - 1; i >= 0; i--) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (i == 0 || this.board[i][j].isEmpty())
+        for (int i = board.length - 1; i >= 0; i--) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (i == 0 || board[i][j].isEmpty())
                     continue;
-                if (this.board[i][j].getValue() == this.board[i - 1][j].getValue()) {
-                    if (this.board[i][j].isProductive() || this.board[i - 1][j].isProductive())
+                if (board[i][j].getValue() == board[i - 1][j].getValue()) {
+                    if (board[i][j].isProductive() || board[i - 1][j].isProductive())
                         continue;
-                    this.board[i - 1][j].setValue(2 * this.board[i][j].getValue());
-                    this.board[i - 1][j].setProductive(true);
+                    board[i - 1][j].setValue(2 * board[i][j].getValue());
+                    board[i - 1][j].setProductive(true);
                     toReturn = true;
-                    this.score += 2 * this.board[i][j].getValue();
-                    this.board[i][j].setValue(0);
+                    this.score += 2 * board[i][j].getValue();
+                    board[i][j].setValue(0);
                 }
             }
         }
         return toReturn;
     }
 
-    private boolean simpleDown() {
+    private boolean simpleDown(Cell[][] board) {
         boolean toReturn = false;
-        for (int i = 0; i < this.board.length - 1; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if ((this.board[i][j]).isEmpty())
+        for (int i = 0; i < board.length - 1; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if ((board[i][j]).isEmpty())
                     continue;
-                if (this.board[i][j].getValue() == this.board[i + 1][j].getValue()) {
-                    if (this.board[i][j].isProductive() || this.board[i + 1][j].isProductive())
+                if (board[i][j].getValue() == board[i + 1][j].getValue()) {
+                    if (board[i][j].isProductive() || board[i + 1][j].isProductive())
                         continue;
-                    this.board[i + 1][j].setValue(2 * this.board[i][j].getValue());
-                    this.board[i + 1][j].setProductive(true);
+                    board[i + 1][j].setValue(2 * board[i][j].getValue());
+                    board[i + 1][j].setProductive(true);
                     toReturn = true;
-                    this.score += this.board[i][j].getValue();
-                    this.board[i][j].setValue(0);
+                    this.score += board[i][j].getValue();
+                    board[i][j].setValue(0);
                 }
             }
         }
         return toReturn;
     }
 
-    private boolean shiftDown() {
+    private boolean shiftDown(Cell[][] board) {
         boolean toReturn = false;
-        for (int i = 0; i < this.board.length - 1; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (this.board[i][j].isEmpty())
+        for (int i = 0; i < board.length - 1; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j].isEmpty())
                     continue;
-                int value = this.board[i][j].getValue();
+                int value = board[i][j].getValue();
                 int temp = i + 1;
                 while (true) {
-                    if (!this.board[temp][j].isEmpty())
+                    if (!board[temp][j].isEmpty())
                         break;
-                    this.board[temp][j].setValue(value);
-                    this.board[temp - 1][j].setValue(0);
+                    board[temp][j].setValue(value);
+                    board[temp - 1][j].setValue(0);
                     toReturn = true;
                     if (temp == 3)
                         break;
@@ -314,7 +314,8 @@ class Game {
                     counter++;
             }
         }
-        return counter >= 16;
+        Cell[][] cells = Arrays.copyOf(this.board, this.board.length);
+        return counter == 16 && !(simpleLeft(cells) || shiftLeft(cells) || shiftRight(cells) || simpleRight(cells) || shiftDown(cells) || simpleDown(cells) || shiftUp(cells) || simpleUp(cells));
     }
 
     private void resetCells() {

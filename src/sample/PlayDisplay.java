@@ -85,6 +85,7 @@ class PlayDisplay {
         });
 
         scenePlay.setOnKeyPressed(event -> {
+            gameIsOver();
             switch (event.getCode()) {
                 case LEFT:
                 case A:
