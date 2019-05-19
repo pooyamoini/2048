@@ -8,8 +8,8 @@ class Game {
     private Cell[][] board;
     private int score;
 
-    Game() {
-        board = new Cell[4][4];
+    Game(int n) {
+        board = new Cell[n][n];
         initBoard();
         this.score = 0;
         currentGame = this;
@@ -39,8 +39,8 @@ class Game {
 
     void left() {
         boolean doIt = false;
-//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
-//        fillCellsArray(sepide);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             if (simpleLeft(this.board))
                 doIt = true;
@@ -52,15 +52,15 @@ class Game {
                 break;
             else doIt = true;
         }
-        if (doIt)
+        if (doIt || checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
 
     void right() {
         boolean doIt = false;
-//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
-//        fillCellsArray(sepide);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             if (simpleRight(this.board))
                 doIt = true;
@@ -72,15 +72,15 @@ class Game {
                 break;
             else doIt = true;
         }
-        if (doIt)
+        if (doIt || checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
 
     void up() {
         boolean doIt = false;
-//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
-//        fillCellsArray(sepide);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             if (simpleUp(this.board))
                 doIt = true;
@@ -92,15 +92,15 @@ class Game {
                 break;
             else doIt = true;
         }
-        if (doIt)
+        if (doIt || checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
 
     void down() {
         boolean doIt = false;
-//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
-//        fillCellsArray(sepide);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             if (simpleDown(this.board))
                 doIt = true;
@@ -112,7 +112,7 @@ class Game {
                 break;
             else doIt = true;
         }
-        if (doIt)
+        if (doIt || checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
@@ -129,9 +129,9 @@ class Game {
                 while (true) {
                     if (!cells1[temp].isEmpty())
                         break;
+                    toReturn = true;
                     cells1[temp + 1].setValue(0);
                     cells1[temp].setValue(value);
-                    toReturn = true;
                     if (temp == 0)
                         break;
                     temp--;
@@ -150,9 +150,9 @@ class Game {
                 if (cells[j].getValue() == cells[j - 1].getValue()) {
                     if (cells[j - 1].isProductive() || cells[j].isProductive())
                         continue;
+                    toReturn = true;
                     cells[j - 1].setProductive(true);
                     cells[j - 1].setValue(2 * cells[j].getValue());
-                    toReturn = true;
                     this.score += (cells[j - 1].getValue());
                     cells[j].setValue(0);
                 }
@@ -174,9 +174,9 @@ class Game {
                 while (true) {
                     if (!cells[temp].isEmpty())
                         break;
+                    toReturn = true;
                     cells[temp - 1].setValue(0);
                     cells[temp].setValue(value);
-                    toReturn = true;
                     if (temp == cells.length - 1)
                         break;
                     temp++;
@@ -197,8 +197,8 @@ class Game {
                         continue;
                     cells[j + 1].setValue(2 * cells[j + 1].getValue());
                     cells[j + 1].setProductive(true);
-                    this.score += cells[j + 1].getValue();
                     toReturn = true;
+                    this.score += cells[j + 1].getValue();
                     cells[j].setValue(0);
                 }
             }
@@ -218,9 +218,9 @@ class Game {
                 while (true) {
                     if (!board[temp][j].isEmpty())
                         break;
+                    toReturn = true;
                     board[temp + 1][j].setValue(0);
                     board[temp][j].setValue(value);
-                    toReturn = true;
                     if (temp == 0)
                         break;
                     temp--;
@@ -239,9 +239,9 @@ class Game {
                 if (board[i][j].getValue() == board[i - 1][j].getValue()) {
                     if (board[i][j].isProductive() || board[i - 1][j].isProductive())
                         continue;
+                    toReturn = true;
                     board[i - 1][j].setValue(2 * board[i][j].getValue());
                     board[i - 1][j].setProductive(true);
-                    toReturn = true;
                     this.score += board[i - 1][j].getValue();
                     board[i][j].setValue(0);
                 }
@@ -259,9 +259,9 @@ class Game {
                 if (board[i][j].getValue() == board[i + 1][j].getValue()) {
                     if (board[i][j].isProductive() || board[i + 1][j].isProductive())
                         continue;
+                    toReturn = true;
                     board[i + 1][j].setValue(2 * board[i][j].getValue());
                     board[i + 1][j].setProductive(true);
-                    toReturn = true;
                     this.score += board[i + 1][j].getValue();
                     board[i][j].setValue(0);
                 }
@@ -281,9 +281,9 @@ class Game {
                 while (true) {
                     if (!board[temp][j].isEmpty())
                         break;
+                    toReturn = true;
                     board[temp][j].setValue(value);
                     board[temp - 1][j].setValue(0);
-                    toReturn = true;
                     if (temp == board[temp].length - 1)
                         break;
                     temp++;
@@ -297,12 +297,10 @@ class Game {
     private void pickRandom() {
         int x;
         int y;
-        while (true) {
+        do {
             x = Math.abs(new Random().nextInt() % 4);
             y = Math.abs(new Random().nextInt() % 4);
-            if (this.board[x][y].isEmpty())
-                break;
-        }
+        } while (!this.board[x][y].isEmpty());
         switch (new Random().nextInt() % 2) {
             case 0:
                 this.board[x][y].setValue(2);
@@ -336,19 +334,18 @@ class Game {
         }
     }
 
-    private void fillCellsArray(Cell[][] cells) {
+    private void fillCellsArray(int[][] cells) {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
-                cells[i][j] = new Cell();
-                cells[i][j].setValue(this.board[i][j].getValue());
+                cells[i][j] = this.board[i][j].getValue();
             }
         }
     }
 
-    private boolean checkInputRandom(Cell[][] cells) {
+    private boolean checkInputRandom(int[][] cells) {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
-                if (!cells[i][j].equals(this.board[i][j]))
+                if (cells[i][j] != this.board[i][j].getValue())
                     return true;
             }
         }

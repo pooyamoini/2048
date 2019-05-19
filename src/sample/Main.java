@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -15,11 +16,16 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     static Scene scene;
     private Button playButton = new Button("PLAY");
     private Button quitButton = new Button("QUIT");
+    private TextField takeLength = new TextField();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         primaryStage.setTitle("2048 Game");
+        takeLength.relocate(225, 190);
+        takeLength.setScaleX(2.5);
+        takeLength.setScaleY(2.5);
+        takeLength.setPromptText("enter dimensions:");
         Group root = new Group();
 
         playButton.setTextFill(Color.BLACK);
@@ -40,7 +46,8 @@ public class Main extends Application implements EventHandler<KeyEvent> {
 
 
         playButton.setOnAction(e -> {
-            new Game();
+            new Game(4);
+//            root.getChildren().add(takeLength);
             PlayDisplay.display();
         });
 
