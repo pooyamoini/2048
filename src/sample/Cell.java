@@ -2,11 +2,13 @@ package sample;
 
 class Cell {
 
+    private int value;
+    private boolean isProductive;
+
     Cell() {
         this.value = 0;
+        this.isProductive = false;
     }
-
-    private int value;
 
     int getValue() {
         return value;
@@ -18,5 +20,13 @@ class Cell {
 
     boolean isEmpty(){
         return this.value == 0;
+    }
+
+    boolean isProductive() {
+        return isProductive;
+    }
+
+    void setProductive(boolean productive) {
+        isProductive = productive;
     }
 }
