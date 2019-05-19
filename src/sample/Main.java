@@ -19,7 +19,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     private TextField takeLength = new TextField();
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("2048 Game");
         takeLength.relocate(167, 190);
