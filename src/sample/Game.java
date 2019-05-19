@@ -42,8 +42,8 @@ class Game {
     }
 
     void left() {
-        Cell[][] cells = new Cell[this.board.length][this.board[0].length];
-        fillCellsArray(cells);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             simpleLeft(this.board);
             shiftLeft(this.board);
@@ -51,14 +51,14 @@ class Game {
             if (!shiftLeft(this.board))
                 break;
         }
-        if (!checkEqualArray(cells))
+        if (checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
 
     void right() {
-        Cell[][] cells = new Cell[this.board.length][this.board[0].length];
-        fillCellsArray(cells);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             simpleRight(this.board);
             shiftRight(this.board);
@@ -66,14 +66,14 @@ class Game {
             if (!shiftRight(this.board))
                 break;
         }
-        if (!checkEqualArray(cells))
+        if (checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
 
     void up() {
-        Cell[][] cells = new Cell[this.board.length][this.board[0].length];
-        fillCellsArray(cells);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             simpleUp(this.board);
             shiftUp(this.board);
@@ -81,14 +81,14 @@ class Game {
             if (!shiftUp(this.board))
                 break;
         }
-        if (!checkEqualArray(cells))
+        if (checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
 
     void down() {
-        Cell[][] cells = new Cell[this.board.length][this.board[0].length];
-        fillCellsArray(cells);
+        int[][] previousSituation = new int[this.board.length][this.board[0].length];
+        fillCellsArray(previousSituation);
         while (true) {
             simpleDown(this.board);
             shiftDown(this.board);
@@ -96,7 +96,7 @@ class Game {
             if (!shiftDown(this.board))
                 break;
         }
-        if (!checkEqualArray(cells))
+        if (checkInputRandom(previousSituation))
             pickRandom();
         resetCells();
     }
@@ -279,11 +279,13 @@ class Game {
 
 
     private void pickRandom() {
-        int x = Math.abs(new Random().nextInt(4));
-        int y = Math.abs(new Random().nextInt(4));
-        while (!this.board[x][y].isEmpty()) {
-            x = Math.abs(new Random().nextInt(4));
-            y = Math.abs(new Random().nextInt(4));
+        int x;
+        int y;
+        while (true) {
+            x = Math.abs(new Random().nextInt() % 4);
+            y = Math.abs(new Random().nextInt() % 4);
+            if (this.board[x][y].isEmpty())
+                break;
         }
         switch (new Random().nextInt() % 2) {
             case 0:
@@ -318,22 +320,21 @@ class Game {
         }
     }
 
-    private void fillCellsArray(Cell[][] cells) {
+    private void fillCellsArray(int[][] cells) {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
-                cells[i][j] = new Cell();
-                cells[i][j].setValue(this.board[i][j].getValue());
+                cells[i][j] = this.board[i][j].getValue();
             }
         }
     }
 
-    private boolean checkEqualArray(Cell[][] cells) {
+    private boolean checkInputRandom(int[][] cells) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                if (cells[i][j].getValue() != this.board[i][j].getValue())
-                    return false;
+                if (cells[i][j] != this.board[i][j].getValue())
+                    return true;
             }
         }
-        return true;
+        return false;
     }
 }
