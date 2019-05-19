@@ -106,11 +106,11 @@ class PlayDisplay {
             }
         });
 
+        showNumbers();
+
         gameIsOver();
 
         scenePlay.setOnKeyReleased(event -> showNumbers());
-
-        showNumbers();
     }
 
 

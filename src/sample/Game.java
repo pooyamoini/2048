@@ -11,7 +11,6 @@ class Game {
     Game() {
         board = new Cell[4][4];
         initBoard();
-        initializeBoard();
         this.score = 0;
         currentGame = this;
     }
@@ -22,9 +21,6 @@ class Game {
                 this.board[i][j] = new Cell();
             }
         }
-    }
-
-    private void initializeBoard() {
         this.board[1][3].setValue(2);
         this.board[2][2].setValue(4);
     }
@@ -42,61 +38,81 @@ class Game {
     }
 
     void left() {
-        int[][] previousSituation = new int[this.board.length][this.board[0].length];
-        fillCellsArray(previousSituation);
+        boolean doIt = false;
+//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
+//        fillCellsArray(sepide);
         while (true) {
-            simpleLeft(this.board);
-            shiftLeft(this.board);
-            simpleLeft(this.board);
+            if (simpleLeft(this.board))
+                doIt = true;
+            if (shiftLeft(this.board))
+                doIt = true;
+            if (simpleLeft(this.board))
+                doIt = true;
             if (!shiftLeft(this.board))
                 break;
+            else doIt = true;
         }
-        if (checkInputRandom(previousSituation))
+        if (doIt)
             pickRandom();
         resetCells();
     }
 
     void right() {
-        int[][] previousSituation = new int[this.board.length][this.board[0].length];
-        fillCellsArray(previousSituation);
+        boolean doIt = false;
+//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
+//        fillCellsArray(sepide);
         while (true) {
-            simpleRight(this.board);
-            shiftRight(this.board);
-            simpleRight(this.board);
+            if (simpleRight(this.board))
+                doIt = true;
+            if (shiftRight(this.board))
+                doIt = true;
+            if (simpleRight(this.board))
+                doIt = true;
             if (!shiftRight(this.board))
                 break;
+            else doIt = true;
         }
-        if (checkInputRandom(previousSituation))
+        if (doIt)
             pickRandom();
         resetCells();
     }
 
     void up() {
-        int[][] previousSituation = new int[this.board.length][this.board[0].length];
-        fillCellsArray(previousSituation);
+        boolean doIt = false;
+//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
+//        fillCellsArray(sepide);
         while (true) {
-            simpleUp(this.board);
-            shiftUp(this.board);
-            simpleUp(this.board);
+            if (simpleUp(this.board))
+                doIt = true;
+            if (shiftUp(this.board))
+                doIt = true;
+            if (simpleUp(this.board))
+                doIt = true;
             if (!shiftUp(this.board))
                 break;
+            else doIt = true;
         }
-        if (checkInputRandom(previousSituation))
+        if (doIt)
             pickRandom();
         resetCells();
     }
 
     void down() {
-        int[][] previousSituation = new int[this.board.length][this.board[0].length];
-        fillCellsArray(previousSituation);
+        boolean doIt = false;
+//        Cell[][] sepide = new Cell[this.board.length][this.board[0].length];
+//        fillCellsArray(sepide);
         while (true) {
-            simpleDown(this.board);
-            shiftDown(this.board);
-            simpleDown(this.board);
+            if (simpleDown(this.board))
+                doIt = true;
+            if (shiftDown(this.board))
+                doIt = true;
+            if (simpleDown(this.board))
+                doIt = true;
             if (!shiftDown(this.board))
                 break;
+            else doIt = true;
         }
-        if (checkInputRandom(previousSituation))
+        if (doIt)
             pickRandom();
         resetCells();
     }
@@ -320,18 +336,19 @@ class Game {
         }
     }
 
-    private void fillCellsArray(int[][] cells) {
+    private void fillCellsArray(Cell[][] cells) {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
-                cells[i][j] = this.board[i][j].getValue();
+                cells[i][j] = new Cell();
+                cells[i][j].setValue(this.board[i][j].getValue());
             }
         }
     }
 
-    private boolean checkInputRandom(int[][] cells) {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                if (cells[i][j] != this.board[i][j].getValue())
+    private boolean checkInputRandom(Cell[][] cells) {
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                if (!cells[i][j].equals(this.board[i][j]))
                     return true;
             }
         }

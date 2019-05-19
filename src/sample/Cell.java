@@ -29,4 +29,12 @@ class Cell {
     void setProductive(boolean productive) {
         isProductive = productive;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Cell){
+            return ((Cell) obj).getValue() == this.value;
+        }
+        return false;
+    }
 }
