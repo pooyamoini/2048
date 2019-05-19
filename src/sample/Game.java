@@ -1,5 +1,8 @@
 package sample;
 
+import com.sun.tools.javac.code.Attribute;
+
+import java.util.Arrays;
 import java.util.Random;
 
 class Game {
@@ -44,19 +47,20 @@ class Game {
         if (gameIsOver())
             return;
         while (true) {
-            simpleLeft();
-            shiftLeft();
-            simpleLeft();
-            if (!shiftLeft())
+            simpleLeft(this.board);
+            shiftLeft(this.board);
+            simpleLeft(this.board);
+            if (!shiftLeft(this.board))
                 break;
         }
         resetCells();
-        pickRandom();
+        if (canMoveLeft())
+            pickRandom();
     }
 
-    private boolean shiftLeft() {
+    private boolean shiftLeft(Cell[][] board) {
         boolean toReturn = false;
-        for (Cell[] cells1 : this.board) {
+        for (Cell[] cells1 : board) {
             for (int j = 0; j < cells1.length; j++) {
                 if (j == 0 || cells1[j].isEmpty())
                     continue;
@@ -78,8 +82,9 @@ class Game {
         return toReturn;
     }
 
-    private void simpleLeft() {
-        for (Cell[] cells : this.board) {
+    private boolean simpleLeft(Cell[][] board) {
+        boolean toReturn = false;
+        for (Cell[] cells : board) {
             for (int j = cells.length - 1; j >= 0; j--) {
                 if (j == 0 || cells[j].isEmpty())
                     continue;
@@ -88,12 +93,14 @@ class Game {
                         continue;
                     cells[j - 1].setProductive(true);
                     cells[j - 1].setValue(2 * cells[j].getValue());
+                    toReturn = true;
                     this.score += (2 * cells[j].getValue());
                     cells[j].setValue(0);
                 }
 
             }
         }
+        return toReturn;
     }
 
     void right() {
@@ -154,7 +161,7 @@ class Game {
     void up() {
         if (gameIsOver())
             return;
-        while (true){
+        while (true) {
             simpleUp();
             shiftUp();
             simpleUp();
@@ -209,7 +216,7 @@ class Game {
     void down() {
         if (gameIsOver())
             return;
-        while (true){
+        while (true) {
             simpleDown();
             shiftDown();
             simpleDown();
@@ -292,11 +299,16 @@ class Game {
         return counter >= 16;
     }
 
-    private void resetCells(){
+    private void resetCells() {
         for (Cell[] cells : this.board) {
             for (Cell cell : cells) {
                 cell.setProductive(false);
             }
         }
+    }
+
+    private boolean canMoveLeft() {
+        Cell[][] cells = Arrays.copyOf(this.board, this.board.length);
+        return shiftLeft(cells) || simpleLeft(cells);
     }
 }
