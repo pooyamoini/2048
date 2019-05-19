@@ -14,8 +14,8 @@ class PlayDisplay {
     private static Text gameOverText;
     private static final float RECTANGLE_HEIGHT = 400 / 4.5f;
     private static final float RECTANGLE_WEIGHT = 400 / 4.5f;
-    private static Rectangle[][] rectangles = new Rectangle[4][4];
-    private static Text[][] labels = new Text[4][4];
+    private static Rectangle[][] rectangles = new Rectangle[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
+    private static Text[][] labels = new Text[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
     private static Text score = new Text("0");
 
     static {
@@ -53,15 +53,6 @@ class PlayDisplay {
     }
 
     static {
-        score.setX(220);
-        score.setScaleX(1.8);
-        score.setY(470);
-        score.setScaleY(1.8);
-        score.setStroke(Color.BLACK);
-        root.getChildren().add(score);
-    }
-
-    static {
         rootGameOver = new Group();
         gameOverScene = new Scene(rootGameOver, 500, 500);
         gameOverText = new Text();
@@ -73,9 +64,20 @@ class PlayDisplay {
         rootGameOver.getChildren().add(gameOverText);
     }
 
+    static {
+        scenePlay = new Scene(root, 500 * Game.getCurrentGame().getDimensions() / 4f, 500 * Game.getCurrentGame().getDimensions() / 4f);
+        score.setX(scenePlay.getWidth() / 2 - 10);
+        score.setY(scenePlay.getHeight() - Game.getCurrentGame().getDimensions() * 10);
+        if (Game.getCurrentGame().getDimensions() == 3)
+            score.setY(scenePlay.getHeight() - 20);
+        score.setScaleX(1.8);
+        score.setScaleY(1.8);
+        score.setStroke(Color.BLACK);
+        root.getChildren().add(score);
+    }
+
     static void display() {
 
-        scenePlay = new Scene(root, 500, 500);
         scenePlay.setFill(COLORS.getColorMainMenu());
         Main.window.setScene(scenePlay);
 

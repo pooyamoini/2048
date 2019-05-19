@@ -15,14 +15,18 @@ class Game {
         currentGame = this;
     }
 
+    int getDimensions(){
+        return this.board.length;
+    }
+
     private void initBoard() {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
                 this.board[i][j] = new Cell();
             }
         }
-        this.board[1][3].setValue(2);
-        this.board[2][2].setValue(4);
+        this.board[0][2].setValue(2);
+        this.board[2][1].setValue(4);
     }
 
     static Game getCurrentGame() {
@@ -298,8 +302,8 @@ class Game {
         int x;
         int y;
         do {
-            x = Math.abs(new Random().nextInt() % 4);
-            y = Math.abs(new Random().nextInt() % 4);
+            x = Math.abs(new Random().nextInt() % this.getDimensions());
+            y = Math.abs(new Random().nextInt() % this.getDimensions());
         } while (!this.board[x][y].isEmpty());
         switch (new Random().nextInt() % 2) {
             case 0:
@@ -323,7 +327,7 @@ class Game {
             }
         }
         Cell[][] cells = Arrays.copyOf(this.board, this.board.length);
-        return counter == 16 && !(simpleLeft(cells) || shiftLeft(cells) || shiftRight(cells) || simpleRight(cells) || shiftDown(cells) || simpleDown(cells) || shiftUp(cells) || simpleUp(cells));
+        return counter == getDimensions() * getDimensions() && !(simpleLeft(cells) || shiftLeft(cells) || shiftRight(cells) || simpleRight(cells) || shiftDown(cells) || simpleDown(cells) || shiftUp(cells) || simpleUp(cells));
     }
 
     private void resetCells() {

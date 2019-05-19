@@ -22,9 +22,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         primaryStage.setTitle("2048 Game");
-        takeLength.relocate(225, 190);
-        takeLength.setScaleX(2.5);
-        takeLength.setScaleY(2.5);
+        takeLength.relocate(167, 190);
         takeLength.setPromptText("enter dimensions:");
         Group root = new Group();
 
@@ -44,22 +42,21 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         scene.setFill(COLORS.getColorMainMenu());
         window.setScene(scene);
 
-
         playButton.setOnAction(e -> {
-            new Game(4);
-//            root.getChildren().add(takeLength);
-            PlayDisplay.display();
+            root.getChildren().add(takeLength);
         });
 
-        quitButton.setOnAction(e -> {
-            if (window.getScene() != scene)
-                window.setScene(scene);
-            window.close();
+
+        takeLength.setOnAction(e -> {
+            if (takeLength.getText().matches("\\d")) {
+                if (Integer.parseInt(takeLength.getText()) >= 3) {
+                    new Game(Integer.parseInt(takeLength.getText()));
+                    PlayDisplay.display();
+                }
+            }
         });
 
-        if (window.getScene().equals(PlayDisplay.getScenePlay()))
-            window.setOnCloseRequest(e -> window.setScene(scene));
-
+        quitButton.setOnAction(e -> window.close());
 
         root.getChildren().addAll(playButton, quitButton);
 
