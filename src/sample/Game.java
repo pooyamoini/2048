@@ -1,7 +1,5 @@
 package sample;
 
-import com.sun.tools.javac.code.Attribute;
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -44,18 +42,71 @@ class Game {
     }
 
     void left() {
-        if (gameIsOver())
-            return;
+        boolean doIt = false;
         while (true) {
-            simpleLeft(this.board);
-            shiftLeft(this.board);
-            simpleLeft(this.board);
+            if (simpleLeft(this.board))
+                doIt = true;
+            if (shiftLeft(this.board))
+                doIt = true;
+            if (simpleLeft(this.board))
+                doIt = true;
             if (!shiftLeft(this.board))
                 break;
         }
-        resetCells();
-        if (canMoveLeft())
+        if (doIt)
             pickRandom();
+        resetCells();
+    }
+
+    void right() {
+        boolean doIt = false;
+        while (true) {
+            if (simpleRight())
+                doIt = true;
+            if (shiftRight())
+                doIt = true;
+            if (simpleRight())
+                doIt = true;
+            if (!shiftRight())
+                break;
+        }
+        if (doIt)
+            pickRandom();
+        resetCells();
+    }
+
+    void up() {
+        boolean doIt = false;
+        while (true) {
+            if (simpleUp())
+                doIt = true;
+            if (shiftUp())
+                doIt = true;
+            if (simpleUp())
+                doIt = true;
+            if (!shiftUp())
+                break;
+        }
+        if (doIt)
+            pickRandom();
+        resetCells();
+    }
+
+    void down() {
+        boolean doIt = false;
+        while (true) {
+            if (simpleDown())
+                doIt = true;
+            if (shiftDown())
+                doIt = true;
+            if (simpleDown())
+                doIt = true;
+            if (!shiftDown())
+                break;
+        }
+        if (doIt)
+            pickRandom();
+        resetCells();
     }
 
     private boolean shiftLeft(Cell[][] board) {
@@ -103,20 +154,6 @@ class Game {
         return toReturn;
     }
 
-    void right() {
-        if (gameIsOver())
-            return;
-        while (true) {
-            simpleRight();
-            shiftRight();
-            simpleRight();
-            if (!shiftRight())
-                break;
-        }
-        resetCells();
-        pickRandom();
-    }
-
     private boolean shiftRight() {
         boolean toReturn = false;
         for (Cell[] cells : this.board) {
@@ -141,7 +178,8 @@ class Game {
         return toReturn;
     }
 
-    private void simpleRight() {
+    private boolean simpleRight() {
+        boolean toReturn = false;
         for (Cell[] cells : this.board) {
             for (int j = 0; j < cells.length; j++) {
                 if (j == 3 || cells[j].isEmpty())
@@ -152,24 +190,12 @@ class Game {
                     cells[j + 1].setValue(2 * cells[j + 1].getValue());
                     cells[j + 1].setProductive(true);
                     this.score += 2 * cells[j].getValue();
+                    toReturn = true;
                     cells[j].setValue(0);
                 }
             }
         }
-    }
-
-    void up() {
-        if (gameIsOver())
-            return;
-        while (true) {
-            simpleUp();
-            shiftUp();
-            simpleUp();
-            if (!shiftUp())
-                break;
-        }
-        resetCells();
-        pickRandom();
+        return toReturn;
     }
 
     private boolean shiftUp() {
@@ -196,7 +222,8 @@ class Game {
         return toReturn;
     }
 
-    private void simpleUp() {
+    private boolean simpleUp() {
+        boolean toReturn = false;
         for (int i = this.board.length - 1; i >= 0; i--) {
             for (int j = 0; j < this.board[i].length; j++) {
                 if (i == 0 || this.board[i][j].isEmpty())
@@ -206,28 +233,17 @@ class Game {
                         continue;
                     this.board[i - 1][j].setValue(2 * this.board[i][j].getValue());
                     this.board[i - 1][j].setProductive(true);
+                    toReturn = true;
                     this.score += 2 * this.board[i][j].getValue();
                     this.board[i][j].setValue(0);
                 }
             }
         }
+        return toReturn;
     }
 
-    void down() {
-        if (gameIsOver())
-            return;
-        while (true) {
-            simpleDown();
-            shiftDown();
-            simpleDown();
-            if (!shiftDown())
-                break;
-        }
-        resetCells();
-        pickRandom();
-    }
-
-    private void simpleDown() {
+    private boolean simpleDown() {
+        boolean toReturn = false;
         for (int i = 0; i < this.board.length - 1; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
                 if ((this.board[i][j]).isEmpty())
@@ -237,11 +253,13 @@ class Game {
                         continue;
                     this.board[i + 1][j].setValue(2 * this.board[i][j].getValue());
                     this.board[i + 1][j].setProductive(true);
+                    toReturn = true;
                     this.score += this.board[i][j].getValue();
                     this.board[i][j].setValue(0);
                 }
             }
         }
+        return toReturn;
     }
 
     private boolean shiftDown() {
@@ -255,9 +273,9 @@ class Game {
                 while (true) {
                     if (!this.board[temp][j].isEmpty())
                         break;
-                    toReturn = true;
                     this.board[temp][j].setValue(value);
                     this.board[temp - 1][j].setValue(0);
+                    toReturn = true;
                     if (temp == 3)
                         break;
                     temp++;
@@ -305,10 +323,5 @@ class Game {
                 cell.setProductive(false);
             }
         }
-    }
-
-    private boolean canMoveLeft() {
-        Cell[][] cells = Arrays.copyOf(this.board, this.board.length);
-        return shiftLeft(cells) || simpleLeft(cells);
     }
 }
