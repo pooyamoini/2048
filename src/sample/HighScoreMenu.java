@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 
-public class HighScoreMenu {
+class HighScoreMenu {
     private static Group root = new Group();
     private static Scene sceneHighScores;
     private static Text emptyUser = new Text("no users!");

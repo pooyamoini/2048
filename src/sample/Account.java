@@ -2,7 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 
-public class Account {
+class Account {
     private int highScore;
     private String userName;
     private static ArrayList<Account> accounts = new ArrayList<>();

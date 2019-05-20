@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
-public class AccountMenu {
+class AccountMenu {
     private static Group root = new Group();
     private static Scene sceneAccount = new Scene(root, 500, 500);
     private static Button buttonLogin = new Button("Login");

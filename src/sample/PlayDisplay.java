@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 class PlayDisplay {
     private static PlayDisplay currentPlayDisplay;
 
-    public PlayDisplay() {
+    PlayDisplay() {
         root = new Group();
         rectangles = new Rectangle[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
         labels = new Text[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
@@ -133,11 +133,6 @@ class PlayDisplay {
         gameIsOver();
 
         scenePlay.setOnKeyReleased(event -> showNumbers());
-    }
-
-
-    Scene getScenePlay() {
-        return scenePlay;
     }
 
     private void showNumbers() {

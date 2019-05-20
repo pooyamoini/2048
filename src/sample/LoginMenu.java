@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class LoginMenu {
+class LoginMenu {
     private static Group root = new Group();
     private static Scene sceneLoginMenu = new Scene(root, 500, 500);
     private static TextField loginTF = new TextField();
@@ -44,9 +44,5 @@ public class LoginMenu {
             Main.window.setScene(Main.scene);
         }
         else root.getChildren().add(invalidInput);
-    }
-
-    static Scene getSceneLoginMenu() {
-        return sceneLoginMenu;
     }
 }
