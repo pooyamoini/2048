@@ -27,7 +27,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("2048 Game");
-        takeLength.relocate(167, 190);
+        takeLength.relocate(167, 90);
         takeLength.setPromptText("enter dimensions:");
         Group root = new Group();
 
@@ -35,25 +35,25 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         invalidText.relocate(207, 20);
 
         playButton.setTextFill(Color.BLACK);
-        playButton.relocate(225, 140);
-        playButton.setScaleX(2.5);
-        playButton.setScaleY(2);
+        playButton.relocate(225, 50);
+        playButton.setScaleX(1.4);
+        playButton.setScaleY(1.2);
         playButton.setWrapText(true);
 
         quitButton.relocate(playButton.getLayoutX(), playButton.getLayoutY() + 100);
         quitButton.setTextFill(Color.BLACK);
-        quitButton.setScaleX(2.5);
-        quitButton.setScaleY(2);
+        quitButton.setScaleX(1.4);
+        quitButton.setScaleY(1.2);
         quitButton.setWrapText(true);
 
         mainMenu.relocate(playButton.getLayoutX() - 20, playButton.getLayoutY() + 300);
-        mainMenu.setScaleX(2.5);
-        mainMenu.setScaleY(2);
+        mainMenu.setScaleX(1.4);
+        mainMenu.setScaleY(1.2);
         mainMenu.setWrapText(true);
 
         changeUserName.relocate(playButton.getLayoutX() - 50, playButton.getLayoutY() + 200);
-        changeUserName.setScaleX(2.5);
-        changeUserName.setScaleY(2);
+        changeUserName.setScaleX(1.4);
+        changeUserName.setScaleY(1.2);
         changeUserName.setWrapText(true);
 
         changingUserName.setPromptText("username");
@@ -80,7 +80,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
             if (takeLength.getText().matches("\\d")) {
                 if (Integer.parseInt(takeLength.getText()) >= 3) {
                     new Game(Integer.parseInt(takeLength.getText()));
-                    PlayDisplay.display();
+                    PlayDisplay.getCurrentPlayDisplay().display();
                     root.getChildren().remove(takeLength);
                 } else root.getChildren().add(invalidText);
             } else root.getChildren().add(invalidText);

@@ -31,7 +31,7 @@ public class Account {
         this.highScore = highScore;
     }
 
-    private String getUserName() {
+    String getUserName() {
         return userName;
     }
 
@@ -51,5 +51,13 @@ public class Account {
 
     static Account getCurrentAccount() {
         return currentAccount;
+    }
+
+    static int accountsSize(){
+        return accounts.size();
+    }
+
+    static ArrayList<Account> getAccounts() {
+        return accounts;
     }
 }

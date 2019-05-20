@@ -2,6 +2,7 @@ package sample;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 class Game {
     private static Game currentGame;
@@ -13,6 +14,7 @@ class Game {
         initBoard();
         this.score = 0;
         currentGame = this;
+        new PlayDisplay();
     }
 
     int getDimensions(){

@@ -14,6 +14,7 @@ class SignUpMenu {
     private static Button signUpButton = new Button("Sign Up");
     private static Text signUpText = new Text("enter user name:");
     private static Text userNameAlreadyExist = new Text("this username already exist");
+    private static Button backButton = new Button("Back");
 
     static {
         enterUserName.setPromptText("user name");
@@ -23,17 +24,22 @@ class SignUpMenu {
         sceneSignUp.setFill(COLORS.getColorMainMenu());
         userNameAlreadyExist.relocate(170, 310);
         userNameAlreadyExist.setFill(Color.RED);
+        backButton.relocate(225, 385);
+        backButton.setTextFill(Color.BLACK);
     }
 
     static {
-        root.getChildren().addAll(enterUserName, signUpButton, signUpText);
+        root.getChildren().addAll(enterUserName, signUpButton, signUpText, backButton);
     }
 
     static void display() {
         Main.window.setScene(sceneSignUp);
+
         enterUserName.setOnAction(e -> signUpLogic());
 
         signUpButton.setOnAction(e -> signUpLogic());
+
+        backButton.setOnAction(e -> Main.window.setScene(AccountMenu.getSceneAccount()));
     }
 
     private static void signUpLogic() {

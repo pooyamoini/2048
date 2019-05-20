@@ -25,7 +25,7 @@ public class LoginMenu {
         text.relocate(55, 185);
         backToMainMenu.relocate(195, 430);
         root.getChildren().addAll(loginTF, text, backToMainMenu, login);
-        login.relocate(backToMainMenu.getLayoutX() + 20, 200);
+        login.relocate(backToMainMenu.getLayoutX() + 20, 220);
         login.setWrapText(true);
     }
 

@@ -8,32 +8,46 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 class PlayDisplay {
-    private static Group root = new Group();
-    private static Scene scenePlay;
-    private static Scene gameOverScene;
-    private static Group rootGameOver;
-    private static Text gameOverText;
-    private static final float RECTANGLE_HEIGHT = 400 / 4.5f;
-    private static final float RECTANGLE_WEIGHT = 400 / 4.5f;
-    private static Rectangle[][] rectangles = new Rectangle[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
-    private static Text[][] labels = new Text[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
-    private static Text score = new Text("0");
-    private static Button backToMainMenu = new Button("Back to Main Menu");
+    private static PlayDisplay currentPlayDisplay;
 
-    static {
+    public PlayDisplay() {
+        root = new Group();
+        rectangles = new Rectangle[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
+        labels = new Text[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
+        score = new Text("0");
+        currentPlayDisplay = this;
+        initializeRectangles();
+        initializeLabels();
+        initializeGameOver();
+        initializeScore();
+    }
+
+    private Group root;
+    private Scene scenePlay;
+    private Scene gameOverScene;
+    private Group rootGameOver;
+    private Text gameOverText;
+    private final float RECTANGLE_HEIGHT = 400 / 4.5f;
+    private final float RECTANGLE_WIDTH = 400 / 4.5f;
+    private Rectangle[][] rectangles;
+    private Text[][] labels;
+    private Text score;
+    private Button backToMainMenu = new Button("Back to Main Menu");
+
+    private void initializeRectangles() {
         for (int i = 0; i < rectangles.length; i++) {
             for (int j = 0; j < rectangles[i].length; j++) {
-                rectangles[i][j] = new Rectangle(RECTANGLE_WEIGHT, RECTANGLE_HEIGHT);
-                rectangles[i][j].setArcHeight(35);
-                rectangles[i][j].setArcWidth(35);
+                rectangles[i][j] = new Rectangle(RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+                rectangles[i][j].setArcHeight(55);
+                rectangles[i][j].setArcWidth(55);
                 rectangles[i][j].setFill(COLORS.getColor0());
                 if (j == 0) {
                     rectangles[i][j].setX(50);
-                    rectangles[i][j].setY((i / 4f) * RECTANGLE_WEIGHT + 50);
+                    rectangles[i][j].setY((i / 4f) * RECTANGLE_WIDTH + 50);
                     if (i != 0)
-                        rectangles[i][j].setY(rectangles[i - 1][j].getY() + RECTANGLE_WEIGHT + 10);
+                        rectangles[i][j].setY(rectangles[i - 1][j].getY() + RECTANGLE_WIDTH + 10);
                 } else {
-                    rectangles[i][j].setX(rectangles[i][j - 1].getX() + RECTANGLE_WEIGHT + 15);
+                    rectangles[i][j].setX(rectangles[i][j - 1].getX() + RECTANGLE_WIDTH + 15);
                     rectangles[i][j].setY(rectangles[i][j - 1].getY());
                 }
                 root.getChildren().add(rectangles[i][j]);
@@ -41,11 +55,11 @@ class PlayDisplay {
         }
     }
 
-    static {
+    private void initializeLabels() {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels[i].length; j++) {
                 labels[i][j] = new Text();
-                labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WEIGHT / 2 - 3);
+                labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WIDTH / 2 - 3);
                 labels[i][j].setY(rectangles[i][j].getY() + RECTANGLE_HEIGHT / 2 + 5);
                 labels[i][j].setScaleX(2.3);
                 labels[i][j].setScaleY(2.3);
@@ -54,7 +68,7 @@ class PlayDisplay {
         }
     }
 
-    static {
+    private void initializeGameOver() {
         rootGameOver = new Group();
         gameOverScene = new Scene(rootGameOver, 500, 500);
         gameOverText = new Text();
@@ -66,7 +80,7 @@ class PlayDisplay {
         rootGameOver.getChildren().add(gameOverText);
     }
 
-    static {
+    private void initializeScore() {
         scenePlay = new Scene(root, 500 * Game.getCurrentGame().getDimensions() / 4f, 500 * Game.getCurrentGame().getDimensions() / 4f);
         score.setX(scenePlay.getWidth() / 2 - 10);
         score.setY(scenePlay.getHeight() - Game.getCurrentGame().getDimensions() * 10);
@@ -78,35 +92,39 @@ class PlayDisplay {
         root.getChildren().add(score);
     }
 
-    static void display() {
+    void display() {
 
         scenePlay.setFill(COLORS.getColorMainMenu());
         Main.window.setScene(scenePlay);
 
-        Main.window.setOnCloseRequest(e -> {
-            Game.setCurrentGameNull();
-            Main.window.setScene(Main.scene);
-        });
+        Main.window.setOnCloseRequest(e -> Main.window.setScene(Main.scene));
 
         scenePlay.setOnKeyPressed(event -> {
             gameIsOver();
-            switch (event.getCode()) {
-                case LEFT:
-                case A:
-                    Game.getCurrentGame().left();
-                    break;
-                case UP:
-                case W:
-                    Game.getCurrentGame().up();
-                    break;
-                case RIGHT:
-                case D:
-                    Game.getCurrentGame().right();
-                    break;
-                case DOWN:
-                case S:
-                    Game.getCurrentGame().down();
-                    break;
+            if (Game.getCurrentGame() != null) {
+                switch (event.getCode()) {
+                    case LEFT:
+                    case A:
+                        Game.getCurrentGame().left();
+                        break;
+                    case UP:
+                    case W:
+                        Game.getCurrentGame().up();
+                        break;
+                    case RIGHT:
+                    case D:
+                        Game.getCurrentGame().right();
+                        break;
+                    case DOWN:
+                    case S:
+                        Game.getCurrentGame().down();
+                        break;
+                    case ESCAPE:
+                        Game.setCurrentGameNull();
+                        Main.window.setScene(Main.scene);
+                        break;
+
+                }
             }
         });
 
@@ -118,20 +136,20 @@ class PlayDisplay {
     }
 
 
-    static Scene getScenePlay() {
+    Scene getScenePlay() {
         return scenePlay;
     }
 
-    private static void showNumbers() {
+    private void showNumbers() {
         for (int i = 0; i < Game.getCurrentGame().getBoard().length; i++) {
             for (int j = 0; j < Game.getCurrentGame().getBoard()[i].length; j++) {
                 root.getChildren().remove(labels[i][j]);
                 if (!Game.getCurrentGame().getBoard()[i][j].isEmpty()) {
                     labels[i][j].setText(Integer.toString(Game.getCurrentGame().getBoard()[i][j].getValue()));
                     if (labels[i][j].getText().length() == 3)
-                        labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WEIGHT / 2 - 3 - 8);
+                        labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WIDTH / 2 - 3 - 8);
                     else if (labels[i][j].getText().length() == 2)
-                        labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WEIGHT / 2 - 3 - 5);
+                        labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WIDTH / 2 - 3 - 5);
                     root.getChildren().add(labels[i][j]);
                     switch (Game.getCurrentGame().getBoard()[i][j].getValue()) {
                         case 2:
@@ -174,7 +192,7 @@ class PlayDisplay {
         initializeEmpty();
     }
 
-    private static void initializeEmpty() {
+    private void initializeEmpty() {
         for (int i = 0; i < Game.getCurrentGame().getBoard().length; i++) {
             for (int j = 0; j < Game.getCurrentGame().getBoard()[i].length; j++) {
                 if (Game.getCurrentGame().getBoard()[i][j].isEmpty())
@@ -183,8 +201,10 @@ class PlayDisplay {
         }
     }
 
-    private static void gameIsOver() {
+    private void gameIsOver(){
         if (Game.getCurrentGame().gameIsOver()) {
+            if (Game.getCurrentGame().getScore() > Account.getCurrentAccount().getHighScore())
+                Account.getCurrentAccount().setHighScore(Game.getCurrentGame().getScore());
             Main.window.setScene(gameOverScene);
             gameOverText.setText("Game is Over\n\n\n");
             Text gameOverScoreText = new Text("Score is : ".concat(Integer.toString(Game.getCurrentGame().getScore())));
@@ -197,5 +217,9 @@ class PlayDisplay {
             Game.setCurrentGameNull();
             rootGameOver.getChildren().addAll(gameOverScoreText, backToMainMenu);
         }
+    }
+
+    static PlayDisplay getCurrentPlayDisplay() {
+        return currentPlayDisplay;
     }
 }
