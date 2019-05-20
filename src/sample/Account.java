@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Account {
     private int highScore;
     private String userName;
-    private static ArrayList<Account> Accounts = new ArrayList<>();
+    private static ArrayList<Account> accounts = new ArrayList<>();
+    private static Account currentAccount;
 
     private Account(String userName) {
         this.highScore = 0;
@@ -13,12 +14,12 @@ public class Account {
     }
 
     static boolean addAccount(String userName){
-        for (Account account1 : Accounts) {
+        for (Account account1 : accounts) {
             if (account1.userName.equals(userName))
                 return false;
         }
         Account account = new Account(userName);
-        Accounts.add(account);
+        accounts.add(account);
         return true;
     }
 
@@ -36,5 +37,15 @@ public class Account {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public static boolean login(String userName){
+        for (Account account : accounts) {
+            if (account.getUserName().equals(userName)) {
+                currentAccount = account;
+                return true;
+            }
+        }
+        return false;
     }
 }

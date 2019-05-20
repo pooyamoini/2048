@@ -18,11 +18,20 @@ public class AccountMenu {
         buttonLogin.setScaleY(2);
         buttonSignUp.setScaleX(2.5);
         buttonSignUp.setScaleY(2);
-        buttonSignUp.relocate(225, 240);
+        buttonSignUp.relocate(220, 240);
         root.getChildren().addAll(buttonLogin, buttonSignUp);
+        sceneAccount.setFill(COLORS.getColorMainMenu());
     }
 
-    public static Scene getSceneAccount() {
+    static void display(){
+        Main.window.setScene(sceneAccount);
+        buttonLogin.setOnAction(e -> {
+            LoginMenu.display();
+        });
+        buttonSignUp.setOnAction(e -> SignUpMenu.display());
+    }
+
+    static Scene getSceneAccount() {
         return sceneAccount;
     }
 }

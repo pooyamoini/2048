@@ -17,6 +17,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     static Scene scene;
     private Button playButton = new Button("PLAY");
     private Button quitButton = new Button("QUIT");
+    private Button mainMenu = new Button("Main Menu");
     private TextField takeLength = new TextField();
     private Text invalidText = new Text("invalid input\ninput must be number\nand bigger than 2\nlower than 10");
 
@@ -29,9 +30,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         Group root = new Group();
 
         invalidText.setFill(Color.RED);
-        invalidText.relocate(227, 360);
-        invalidText.setScaleX(2);
-        invalidText.setScaleY(1.5);
+        invalidText.relocate(207, 420);
 
         playButton.setTextFill(Color.BLACK);
         playButton.relocate(225, 140);
@@ -45,9 +44,14 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         quitButton.setScaleY(2);
         quitButton.setWrapText(true);
 
+        mainMenu.relocate(playButton.getLayoutX() - 20, playButton.getLayoutY() + 200);
+        mainMenu.setScaleX(2.5);
+        mainMenu.setScaleY(2);
+        mainMenu.setWrapText(true);
+
         scene = new Scene(root, 500, 500);
         scene.setFill(COLORS.getColorMainMenu());
-        window.setScene(scene);
+        AccountMenu.display();
 
         playButton.setOnAction(e -> root.getChildren().add(takeLength));
 
@@ -64,7 +68,9 @@ public class Main extends Application implements EventHandler<KeyEvent> {
 
         quitButton.setOnAction(e -> window.close());
 
-        root.getChildren().addAll(playButton, quitButton);
+        mainMenu.setOnAction(e -> window.setScene(AccountMenu.getSceneAccount()));
+
+        root.getChildren().addAll(playButton, quitButton, mainMenu);
 
         window.show();
     }

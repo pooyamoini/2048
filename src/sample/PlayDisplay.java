@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -17,6 +18,7 @@ class PlayDisplay {
     private static Rectangle[][] rectangles = new Rectangle[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
     private static Text[][] labels = new Text[Game.getCurrentGame().getDimensions()][Game.getCurrentGame().getDimensions()];
     private static Text score = new Text("0");
+    private static Button backToMainMenu = new Button("Back to Main Menu");
 
     static {
         for (int i = 0; i < rectangles.length; i++) {
@@ -190,7 +192,10 @@ class PlayDisplay {
             gameOverScoreText.setY(gameOverScene.getHeight() / 2 + 100);
             gameOverScoreText.setScaleX(2.1);
             gameOverScoreText.setScaleY(2.1);
-            rootGameOver.getChildren().add(gameOverScoreText);
+            backToMainMenu.relocate(180, 450);
+            backToMainMenu.setOnAction(e -> Main.window.setScene(AccountMenu.getSceneAccount()));
+            Game.setCurrentGameNull();
+            rootGameOver.getChildren().addAll(gameOverScoreText, backToMainMenu);
         }
     }
 }
