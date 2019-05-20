@@ -9,7 +9,6 @@ class Game {
     private int score;
 
     Game(int n) {
-//        setCurrentGameNull();
         board = new Cell[n][n];
         initBoard();
         this.score = 0;

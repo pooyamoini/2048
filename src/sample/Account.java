@@ -13,7 +13,7 @@ public class Account {
         this.userName = userName;
     }
 
-    static boolean addAccount(String userName){
+    static boolean addAccount(String userName) {
         for (Account account1 : accounts) {
             if (account1.userName.equals(userName))
                 return false;
@@ -23,23 +23,23 @@ public class Account {
         return true;
     }
 
-    public int getHighScore() {
+    int getHighScore() {
         return highScore;
     }
 
-    public void setHighScore(int highScore) {
+    void setHighScore(int highScore) {
         this.highScore = highScore;
     }
 
-    public String getUserName() {
+    private String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public static boolean login(String userName){
+    static boolean login(String userName) {
         for (Account account : accounts) {
             if (account.getUserName().equals(userName)) {
                 currentAccount = account;
@@ -47,5 +47,9 @@ public class Account {
             }
         }
         return false;
+    }
+
+    static Account getCurrentAccount() {
+        return currentAccount;
     }
 }

@@ -13,6 +13,7 @@ public class LoginMenu {
     private static TextField loginTF = new TextField();
     private static Text invalidInput = new Text("Invalid User Name");
     private static Button backToMainMenu = new Button("Back to Menu");
+    private static Button login = new Button("Login");
 
     static {
         Text text = new Text("Enter User Name:");
@@ -22,21 +23,27 @@ public class LoginMenu {
         invalidInput.relocate(185, 400);
         sceneLoginMenu.setFill(COLORS.getColorMainMenu());
         text.relocate(55, 185);
-        backToMainMenu.relocate(55, 230);
-        root.getChildren().addAll(loginTF, text, backToMainMenu);
+        backToMainMenu.relocate(195, 430);
+        root.getChildren().addAll(loginTF, text, backToMainMenu, login);
+        login.relocate(backToMainMenu.getLayoutX() + 20, 200);
+        login.setWrapText(true);
     }
 
     static void display(){
         Main.window.setScene(sceneLoginMenu);
-        loginTF.setOnAction(e -> {
-            String userName = loginTF.getText();
-            if (Account.login(userName)){
-                Main.window.setScene(Main.scene);
-            }
-            else root.getChildren().add(invalidInput);
-        });
+        loginTF.setOnAction(e -> loginLogic());
+
+        login.setOnAction(e -> loginLogic());
 
         backToMainMenu.setOnAction(e -> Main.window.setScene(AccountMenu.getSceneAccount()));
+    }
+
+    private static void loginLogic() {
+        String userName = loginTF.getText();
+        if (Account.login(userName)){
+            Main.window.setScene(Main.scene);
+        }
+        else root.getChildren().add(invalidInput);
     }
 
     static Scene getSceneLoginMenu() {

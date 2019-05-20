@@ -15,11 +15,13 @@ public class Main extends Application implements EventHandler<KeyEvent> {
 
     static Stage window;
     static Scene scene;
-    private Button playButton = new Button("PLAY");
-    private Button quitButton = new Button("QUIT");
-    private Button mainMenu = new Button("Main Menu");
-    private TextField takeLength = new TextField();
-    private Text invalidText = new Text("invalid input\ninput must be number\nand bigger than 2\nlower than 10");
+    private static Button playButton = new Button("PLAY");
+    private static Button quitButton = new Button("QUIT");
+    private static Button mainMenu = new Button("Main Menu");
+    private static Button changeUserName = new Button("Change username");
+    private static TextField takeLength = new TextField();
+    private static Text invalidText = new Text("invalid input\ninput must be number\nand bigger than 2\nlower than 10");
+    private static TextField changingUserName = new TextField();
 
     @Override
     public void start(Stage primaryStage) {
@@ -30,7 +32,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         Group root = new Group();
 
         invalidText.setFill(Color.RED);
-        invalidText.relocate(207, 420);
+        invalidText.relocate(207, 20);
 
         playButton.setTextFill(Color.BLACK);
         playButton.relocate(225, 140);
@@ -44,10 +46,18 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         quitButton.setScaleY(2);
         quitButton.setWrapText(true);
 
-        mainMenu.relocate(playButton.getLayoutX() - 20, playButton.getLayoutY() + 200);
+        mainMenu.relocate(playButton.getLayoutX() - 20, playButton.getLayoutY() + 300);
         mainMenu.setScaleX(2.5);
         mainMenu.setScaleY(2);
         mainMenu.setWrapText(true);
+
+        changeUserName.relocate(playButton.getLayoutX() - 50, playButton.getLayoutY() + 200);
+        changeUserName.setScaleX(2.5);
+        changeUserName.setScaleY(2);
+        changeUserName.setWrapText(true);
+
+        changingUserName.setPromptText("username");
+        changingUserName.relocate(167, changeUserName.getLayoutY() + 48);
 
         scene = new Scene(root, 500, 500);
         scene.setFill(COLORS.getColorMainMenu());
@@ -55,6 +65,16 @@ public class Main extends Application implements EventHandler<KeyEvent> {
 
         playButton.setOnAction(e -> root.getChildren().add(takeLength));
 
+        changeUserName.setOnAction(e -> {
+            root.getChildren().add(changingUserName);
+        });
+
+        changingUserName.setOnAction(e -> {
+            if (!changingUserName.getText().equals("")){
+                Account.getCurrentAccount().setUserName(changingUserName.getText());
+                root.getChildren().remove(changingUserName);
+            }
+        });
 
         takeLength.setOnAction(e -> {
             if (takeLength.getText().matches("\\d")) {
@@ -70,7 +90,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
 
         mainMenu.setOnAction(e -> window.setScene(AccountMenu.getSceneAccount()));
 
-        root.getChildren().addAll(playButton, quitButton, mainMenu);
+        root.getChildren().addAll(playButton, quitButton, mainMenu, changeUserName);
 
         window.show();
     }

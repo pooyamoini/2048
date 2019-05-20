@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 class SignUpMenu {
@@ -12,6 +13,7 @@ class SignUpMenu {
     private static TextField enterUserName = new TextField();
     private static Button signUpButton = new Button("Sign Up");
     private static Text signUpText = new Text("enter user name:");
+    private static Text userNameAlreadyExist = new Text("this username already exist");
 
     static {
         enterUserName.setPromptText("user name");
@@ -19,6 +21,8 @@ class SignUpMenu {
         signUpButton.relocate(215, 210);
         signUpText.relocate(55, 185);
         sceneSignUp.setFill(COLORS.getColorMainMenu());
+        userNameAlreadyExist.relocate(170, 310);
+        userNameAlreadyExist.setFill(Color.RED);
     }
 
     static {
@@ -35,8 +39,9 @@ class SignUpMenu {
     private static void signUpLogic() {
         if (!enterUserName.getText().equals("")) {
             String userName = enterUserName.getText();
-            Account.addAccount(userName);
-            Main.window.setScene(Main.scene);
+            if (Account.addAccount(userName))
+                Main.window.setScene(AccountMenu.getSceneAccount());
+            else root.getChildren().add(userNameAlreadyExist);
         }
     }
 }
