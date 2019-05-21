@@ -35,8 +35,13 @@ class Account {
         return userName;
     }
 
-    void setUserName(String userName) {
+    boolean setUserName(String userName) {
+        for (Account account : accounts) {
+            if (account.userName.equals(userName))
+                return false;
+        }
         this.userName = userName;
+        return true;
     }
 
     static boolean login(String userName) {

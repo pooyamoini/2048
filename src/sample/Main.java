@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -22,6 +23,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     private static TextField takeLength = new TextField();
     private static Text invalidText = new Text("invalid input\ninput must be number\nand bigger than 2\nlower than 10");
     private static TextField changingUserName = new TextField();
+    private static ProgressBar progressBar = new ProgressBar();
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,7 +34,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         Group root = new Group();
 
         invalidText.setFill(Color.RED);
-        invalidText.relocate(207, 20);
+        invalidText.relocate(57, 20);
 
         playButton.setTextFill(Color.BLACK);
         playButton.relocate(225, 50);
@@ -50,6 +52,9 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         mainMenu.setScaleX(1.4);
         mainMenu.setScaleY(1.2);
         mainMenu.setWrapText(true);
+
+        progressBar.relocate(mainMenu.getLayoutX() + 10, mainMenu.getLayoutY() + 100);
+        progressBar.setProgress(0.30);
 
         changeUserName.relocate(playButton.getLayoutX() - 50, playButton.getLayoutY() + 200);
         changeUserName.setScaleX(1.4);
@@ -70,9 +75,9 @@ public class Main extends Application implements EventHandler<KeyEvent> {
         });
 
         changingUserName.setOnAction(e -> {
-            if (!changingUserName.getText().equals("")){
-                Account.getCurrentAccount().setUserName(changingUserName.getText());
-                root.getChildren().remove(changingUserName);
+            if (!changingUserName.getText().equals("")) {
+                if (Account.getCurrentAccount().setUserName(changingUserName.getText()))
+                    root.getChildren().remove(changingUserName);
             }
         });
 
@@ -90,7 +95,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
 
         mainMenu.setOnAction(e -> window.setScene(AccountMenu.getSceneAccount()));
 
-        root.getChildren().addAll(playButton, quitButton, mainMenu, changeUserName);
+        root.getChildren().addAll(playButton, quitButton, mainMenu, changeUserName, progressBar);
 
         window.show();
     }
