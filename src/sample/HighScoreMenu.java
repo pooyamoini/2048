@@ -9,21 +9,30 @@ import javafx.scene.text.Text;
 
 
 class HighScoreMenu {
-    private static Group root = new Group();
-    private static Scene sceneHighScores;
-    private static Text emptyUser = new Text("no users!");
-    private static Button backToMainMenu = new Button("main menu");
+    private Group root;
+    private Scene sceneHighScores;
+    private Text emptyUser;
+    private Button backToMainMenu;
+    private static HighScoreMenu currentHighScoreMenu;
 
-    static {
+    HighScoreMenu() {
+        root = new Group();
+        emptyUser = new Text("number of user : 0");
+        backToMainMenu = new Button("main menu");
+        firstInitialize();
+        currentHighScoreMenu = this;
+    }
+
+    private void firstInitialize() {
         emptyUser.setFill(Color.RED);
         backToMainMenu.relocate(emptyUser.getX(), emptyUser.getY() + 30);
         root.getChildren().add(backToMainMenu);
-        emptyUser.relocate(50, 50);
-        backToMainMenu.relocate(50, 600);
-        sceneHighScores = new Scene(root, 180, 650);
+        emptyUser.relocate(35, 30);
+        sceneHighScores = new Scene(root, 180, 100 + (Account.accountsSize() * 60));
+        backToMainMenu.relocate(50, sceneHighScores.getHeight() - 30);
     }
 
-    static void display() {
+    void display() {
         sceneHighScores.setFill(COLORS.getColorMainMenu());
 
         Main.window.setScene(sceneHighScores);
@@ -40,7 +49,7 @@ class HighScoreMenu {
             root.getChildren().remove(emptyUser);
             for (int i = 0; i < scores.length; i++) {
                 root.getChildren().removeAll(scores[i], rectangles[i]);
-                rectangles[i] = new Rectangle(130, 35);
+                rectangles[i] = new Rectangle(152, 35);
                 rectangles[i].setFill(COLORS.getColor0());
                 rectangles[i].setX(20);
                 rectangles[i].setY(20);
@@ -52,13 +61,16 @@ class HighScoreMenu {
                     rectangles[i].setX(20);
                     rectangles[i].setY(rectangles[i - 1].getY() + 60);
                 }
-                scores[i].relocate(rectangles[i].getX() + 20, rectangles[i].getY() + 12);
+                scores[i].relocate(rectangles[i].getX() + 5, rectangles[i].getY() + 12);
                 if (!root.getChildren().contains(rectangles[i]))
                     root.getChildren().add(rectangles[i]);
                 if (!root.getChildren().contains(scores[i]))
                     root.getChildren().add(scores[i]);
             }
         }
+    }
 
+    static HighScoreMenu getCurrentHighScoreMenu() {
+        return currentHighScoreMenu;
     }
 }

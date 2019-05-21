@@ -16,7 +16,7 @@ class Game {
         new PlayDisplay();
     }
 
-    int getDimensions(){
+    int getDimensions() {
         return this.board.length;
     }
 
@@ -52,13 +52,13 @@ class Game {
         int[][] previousSituation = new int[this.board.length][this.board[0].length];
         fillCellsArray(previousSituation);
         while (true) {
-            if (simpleLeft(this.board))
+            if (simpleLeft(this.board) || doIt)
                 doIt = true;
-            if (shiftLeft(this.board))
+            if (shiftLeft(this.board) || doIt)
                 doIt = true;
-            if (simpleLeft(this.board))
+            if (simpleLeft(this.board) || doIt)
                 doIt = true;
-            if (!shiftLeft(this.board))
+            if (!shiftLeft(this.board) || doIt)
                 break;
             else doIt = true;
         }
@@ -72,13 +72,13 @@ class Game {
         int[][] previousSituation = new int[this.board.length][this.board[0].length];
         fillCellsArray(previousSituation);
         while (true) {
-            if (simpleRight(this.board))
+            if (simpleRight(this.board) || doIt)
                 doIt = true;
-            if (shiftRight(this.board))
+            if (shiftRight(this.board) || doIt)
                 doIt = true;
-            if (simpleRight(this.board))
+            if (simpleRight(this.board) || doIt)
                 doIt = true;
-            if (!shiftRight(this.board))
+            if (!shiftRight(this.board) || doIt)
                 break;
             else doIt = true;
         }
@@ -92,13 +92,13 @@ class Game {
         int[][] previousSituation = new int[this.board.length][this.board[0].length];
         fillCellsArray(previousSituation);
         while (true) {
-            if (simpleUp(this.board))
+            if (simpleUp(this.board) || doIt)
                 doIt = true;
-            if (shiftUp(this.board))
+            if (shiftUp(this.board) || doIt)
                 doIt = true;
-            if (simpleUp(this.board))
+            if (simpleUp(this.board) || doIt)
                 doIt = true;
-            if (!shiftUp(this.board))
+            if (!shiftUp(this.board) || doIt)
                 break;
             else doIt = true;
         }
@@ -112,13 +112,13 @@ class Game {
         int[][] previousSituation = new int[this.board.length][this.board[0].length];
         fillCellsArray(previousSituation);
         while (true) {
-            if (simpleDown(this.board))
+            if (simpleDown(this.board) || doIt)
                 doIt = true;
-            if (shiftDown(this.board))
+            if (shiftDown(this.board) || doIt)
                 doIt = true;
-            if (simpleDown(this.board))
+            if (simpleDown(this.board) || doIt)
                 doIt = true;
-            if (!shiftDown(this.board))
+            if (!shiftDown(this.board) || doIt)
                 break;
             else doIt = true;
         }
@@ -311,7 +311,7 @@ class Game {
             x = Math.abs(new Random().nextInt() % this.getDimensions());
             y = Math.abs(new Random().nextInt() % this.getDimensions());
         } while (!this.board[x][y].isEmpty());
-        switch (new Random().nextInt() % 2) {
+        switch (x * y % 2) {
             case 0:
                 this.board[x][y].setValue(2);
                 return;

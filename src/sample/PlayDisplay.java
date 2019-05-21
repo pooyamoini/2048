@@ -196,7 +196,7 @@ class PlayDisplay {
         }
     }
 
-    private void gameIsOver(){
+    private void gameIsOver() {
         if (Game.getCurrentGame().gameIsOver()) {
             if (Game.getCurrentGame().getScore() > Account.getCurrentAccount().getHighScore())
                 Account.getCurrentAccount().setHighScore(Game.getCurrentGame().getScore());

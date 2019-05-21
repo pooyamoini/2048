@@ -32,7 +32,10 @@ class AccountMenu {
         Main.window.setScene(sceneAccount);
         buttonLogin.setOnAction(e -> LoginMenu.display());
         buttonSignUp.setOnAction(e -> SignUpMenu.display());
-        highScore.setOnAction(e -> HighScoreMenu.display());
+        highScore.setOnAction(e -> {
+            new HighScoreMenu();
+            HighScoreMenu.getCurrentHighScoreMenu().display();
+        });
     }
 
     static Scene getSceneAccount() {
