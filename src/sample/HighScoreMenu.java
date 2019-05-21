@@ -49,16 +49,16 @@ class HighScoreMenu {
             root.getChildren().remove(emptyUser);
             for (int i = 0; i < scores.length; i++) {
                 root.getChildren().removeAll(scores[i], rectangles[i]);
-                rectangles[i] = new Rectangle(152, 35);
+                rectangles[i] = new Rectangle(172, 35);
                 rectangles[i].setFill(COLORS.getColor0());
-                rectangles[i].setX(20);
+                rectangles[i].setX(5);
                 rectangles[i].setY(20);
                 rectangles[i].setArcWidth(30);
                 rectangles[i].setArcHeight(30);
                 scores[i] = new Text(Account.getAccounts().get(i).getUserName().concat(" Score : ").concat(Integer.toString(Account.getAccounts().get(i).getHighScore())));
                 scores[i].setFill(COLORS.getColor4());
                 if (i != 0) {
-                    rectangles[i].setX(20);
+                    rectangles[i].setX(5);
                     rectangles[i].setY(rectangles[i - 1].getY() + 60);
                 }
                 scores[i].relocate(rectangles[i].getX() + 5, rectangles[i].getY() + 12);

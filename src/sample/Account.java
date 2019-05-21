@@ -1,8 +1,11 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-class Account {
+import static java.util.Collections.sort;
+
+class Account implements Comparable {
     private int highScore;
     private String userName;
     private static ArrayList<Account> accounts = new ArrayList<>();
@@ -58,11 +61,19 @@ class Account {
         return currentAccount;
     }
 
-    static int accountsSize(){
+    static int accountsSize() {
         return accounts.size();
     }
 
     static ArrayList<Account> getAccounts() {
+        sort(accounts);
         return accounts;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Account)
+            return ((Account) o).highScore - this.highScore;
+        return 0;
     }
 }
