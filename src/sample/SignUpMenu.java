@@ -45,9 +45,11 @@ class SignUpMenu {
     private static void signUpLogic() {
         if (!enterUserName.getText().equals("")) {
             String userName = enterUserName.getText();
-            if (Account.addAccount(userName))
+            if (Account.addAccount(userName)) {
                 Main.window.setScene(AccountMenu.getSceneAccount());
-            else root.getChildren().add(userNameAlreadyExist);
+                root.getChildren().removeAll(userNameAlreadyExist);
+                enterUserName.setText("");
+            } else root.getChildren().add(userNameAlreadyExist);
         }
     }
 }

@@ -3,8 +3,6 @@ package sample;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static java.util.Collections.sort;
-
 class Account implements Comparable {
     private int highScore;
     private String userName;
@@ -66,7 +64,7 @@ class Account implements Comparable {
     }
 
     static ArrayList<Account> getAccounts() {
-        sort(accounts);
+        Collections.sort(accounts);
         return accounts;
     }
 

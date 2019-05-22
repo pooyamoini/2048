@@ -5,12 +5,16 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Main extends Application implements EventHandler<KeyEvent> {
 
@@ -23,7 +27,36 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     private static TextField takeLength = new TextField();
     private static Text invalidText = new Text("invalid input\ninput must be number\nand bigger than 2\nlower than 10");
     private static TextField changingUserName = new TextField();
-    private static ProgressBar progressBar = new ProgressBar();
+    private static FileInputStream playButtonFile;
+    private static ImageView playImj;
+    private static FileInputStream menuFile;
+    private static ImageView menuImj;
+    private static FileInputStream quitFile;
+    private static ImageView quitImj;
+    private static FileInputStream userFile;
+    private static ImageView userImj;
+
+    static {
+        try {
+            playButtonFile = new FileInputStream("/Users/pooya/Desktop/Programms/third exercise 2048/src/sample/play.png");
+            menuFile = new FileInputStream("/Users/pooya/Desktop/Programms/third exercise 2048/src/sample/home.png");
+            quitFile = new FileInputStream("/Users/pooya/Desktop/Programms/third exercise 2048/src/sample/quit.png");
+            userFile = new FileInputStream("/Users/pooya/Desktop/Programms/third exercise 2048/src/sample/username.png");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static {
+        Image image1 = new Image(playButtonFile);
+        Image image2 = new Image(menuFile);
+        Image image3 = new Image(quitFile);
+        Image image4 = new Image(userFile);
+        playImj = new ImageView(image1);
+        menuImj = new ImageView(image2);
+        quitImj = new ImageView(image3);
+        userImj = new ImageView(image4);
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -47,13 +80,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     }
 
     private void setButtonsAction(Group root) {
-        playButton.setOnAction(e -> {
-            root.getChildren().add(takeLength);
-            root.getChildren().add(progressBar);
-            if (!root.getChildren().contains(progressBar)) {
-                progressBar.setProgress(0);
-            }
-        });
+        playButton.setOnAction(e -> root.getChildren().add(takeLength));
 
         changeUserName.setOnAction(e -> root.getChildren().add(changingUserName));
 
@@ -69,7 +96,7 @@ public class Main extends Application implements EventHandler<KeyEvent> {
                 if (Integer.parseInt(takeLength.getText()) >= 3) {
                     new Game(Integer.parseInt(takeLength.getText()));
                     PlayDisplay.getCurrentPlayDisplay().display();
-                    root.getChildren().removeAll(takeLength, progressBar, invalidText);
+                    root.getChildren().removeAll(takeLength, invalidText);
                     takeLength.setText("");
                 } else root.getChildren().add(invalidText);
             } else root.getChildren().add(invalidText);
@@ -81,40 +108,38 @@ public class Main extends Application implements EventHandler<KeyEvent> {
     }
 
     private void secondInitialize() {
-        progressBar.relocate(mainMenu.getLayoutX() - 5, mainMenu.getLayoutY() + 100);
-
-        takeLength.relocate(167, 90);
+        takeLength.relocate(167, 120);
         takeLength.setPromptText("enter dimensions:");
 
         invalidText.setFill(Color.RED);
         invalidText.relocate(57, 20);
 
-        changeUserName.relocate(playButton.getLayoutX() - 50, playButton.getLayoutY() + 200);
-        changeUserName.setScaleX(1.4);
-        changeUserName.setScaleY(1.2);
-        changeUserName.setWrapText(true);
+        changeUserName.relocate(playButton.getLayoutX() - 40, playButton.getLayoutY() + 173);
+        changeUserName.setScaleX(0.6);
+        changeUserName.setScaleY(0.6);
+        changeUserName.setGraphic(userImj);
 
         changingUserName.setPromptText("username");
-        changingUserName.relocate(167, changeUserName.getLayoutY() + 48);
+        changingUserName.relocate(147, changeUserName.getLayoutY() + 65);
     }
 
     private void initializeButton() {
         playButton.setTextFill(Color.BLACK);
-        playButton.relocate(225, 50);
-        playButton.setScaleX(1.4);
-        playButton.setScaleY(1.2);
-        playButton.setWrapText(true);
+        playButton.relocate(180, 50);
+        playButton.setScaleX(0.6);
+        playButton.setScaleY(0.6);
+        playButton.setGraphic(playImj);
 
-        quitButton.relocate(playButton.getLayoutX(), playButton.getLayoutY() + 100);
+        quitButton.relocate(playButton.getLayoutX() + 8, playButton.getLayoutY() + 100);
         quitButton.setTextFill(Color.BLACK);
-        quitButton.setScaleX(1.4);
-        quitButton.setScaleY(1.2);
-        quitButton.setWrapText(true);
+        quitButton.setScaleX(0.6);
+        quitButton.setScaleY(0.6);
+        quitButton.setGraphic(quitImj);
 
-        mainMenu.relocate(playButton.getLayoutX() - 20, playButton.getLayoutY() + 300);
-        mainMenu.setScaleX(1.4);
-        mainMenu.setScaleY(1.2);
-        mainMenu.setWrapText(true);
+        mainMenu.relocate(playButton.getLayoutX() - 10, playButton.getLayoutY() + 290);
+        mainMenu.setScaleX(0.7);
+        mainMenu.setScaleY(0.7);
+        mainMenu.setGraphic(menuImj);
     }
 
 

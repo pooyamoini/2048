@@ -18,7 +18,7 @@ class LoginMenu {
     static {
         Text text = new Text("Enter User Name:");
         loginTF.setPromptText("enter username");
-        loginTF.relocate(170,180);
+        loginTF.relocate(170, 180);
         invalidInput.setFill(Color.RED);
         invalidInput.relocate(185, 400);
         sceneLoginMenu.setFill(COLORS.getColorMainMenu());
@@ -29,7 +29,7 @@ class LoginMenu {
         login.setWrapText(true);
     }
 
-    static void display(){
+    static void display() {
         Main.window.setScene(sceneLoginMenu);
         loginTF.setOnAction(e -> loginLogic());
 
@@ -40,9 +40,10 @@ class LoginMenu {
 
     private static void loginLogic() {
         String userName = loginTF.getText();
-        if (Account.login(userName)){
+        if (Account.login(userName)) {
             Main.window.setScene(Main.scene);
-        }
-        else root.getChildren().add(invalidInput);
+            root.getChildren().removeAll(invalidInput);
+            loginTF.setText("");
+        } else root.getChildren().add(invalidInput);
     }
 }

@@ -38,8 +38,8 @@ class PlayDisplay {
         for (int i = 0; i < rectangles.length; i++) {
             for (int j = 0; j < rectangles[i].length; j++) {
                 rectangles[i][j] = new Rectangle(RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-                rectangles[i][j].setArcHeight(55);
-                rectangles[i][j].setArcWidth(55);
+                rectangles[i][j].setArcHeight(62);
+                rectangles[i][j].setArcWidth(62);
                 rectangles[i][j].setFill(COLORS.getColor0());
                 if (j == 0) {
                     rectangles[i][j].setX(50);
