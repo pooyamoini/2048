@@ -243,18 +243,18 @@ class Game {
 
     private boolean simpleUp(Cell[][] board) {
         boolean toReturn = false;
-        for (int i = board.length - 1; i >= 0; i--) {
+        for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if (i == 0 || board[i][j].isEmpty())
+                if (i == 3 || board[i][j].isEmpty())
                     continue;
-                if (board[i][j].getValue() == board[i - 1][j].getValue()) {
-                    if (board[i][j].isProductive() || board[i - 1][j].isProductive())
+                if (board[i][j].getValue() == board[i + 1][j].getValue()) {
+                    if (board[i][j].isProductive() || board[i + 1][j].isProductive())
                         continue;
                     toReturn = true;
-                    board[i - 1][j].setValue(2 * board[i][j].getValue());
-                    board[i - 1][j].setProductive(true);
-                    this.score += board[i - 1][j].getValue();
-                    board[i][j].setValue(0);
+                    board[i][j].setValue(2 * board[i + 2][j].getValue());
+                    board[i][j].setProductive(true);
+                    this.score += board[i][j].getValue();
+                    board[i + 1][j].setValue(0);
                 }
             }
         }
