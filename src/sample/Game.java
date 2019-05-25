@@ -26,8 +26,9 @@ class Game {
                 this.board[i][j] = new Cell();
             }
         }
-        this.board[0][2].setValue(2);
-        this.board[2][1].setValue(4);
+        this.board[0][1].setValue(2);
+        this.board[1][1].setValue(2);
+        this.board[2][1].setValue(2);
     }
 
     static Game getCurrentGame() {
@@ -154,7 +155,7 @@ class Game {
     private boolean simpleLeft(Cell[][] board) {
         boolean toReturn = false;
         for (Cell[] cells : board) {
-            for (int j = cells.length - 1; j >= 0; j--) {
+            for (int j = 0; j < cells.length; j++) {
                 if (j == 0 || cells[j].isEmpty())
                     continue;
                 if (cells[j].getValue() == cells[j - 1].getValue()) {
@@ -199,7 +200,7 @@ class Game {
     private boolean simpleRight(Cell[][] board) {
         boolean toReturn = false;
         for (Cell[] cells : board) {
-            for (int j = 0; j < cells.length; j++) {
+            for (int j = cells.length - 1; j >= 0; j--) {
                 if (j == cells.length - 1 || cells[j].isEmpty())
                     continue;
                 if (cells[j].getValue() == cells[j + 1].getValue()) {

@@ -38,8 +38,6 @@ class PlayDisplay {
         for (int i = 0; i < rectangles.length; i++) {
             for (int j = 0; j < rectangles[i].length; j++) {
                 rectangles[i][j] = new Rectangle(RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-                rectangles[i][j].setArcHeight(62);
-                rectangles[i][j].setArcWidth(62);
                 rectangles[i][j].setFill(COLORS.getColor0());
                 if (j == 0) {
                     rectangles[i][j].setX(50);
@@ -146,45 +144,49 @@ class PlayDisplay {
                     else if (labels[i][j].getText().length() == 2)
                         labels[i][j].setX(rectangles[i][j].getX() + RECTANGLE_WIDTH / 2 - 3 - 5);
                     root.getChildren().add(labels[i][j]);
-                    switch (Game.getCurrentGame().getBoard()[i][j].getValue()) {
-                        case 2:
-                            rectangles[i][j].setFill(COLORS.getColor2());
-                            break;
-                        case 4:
-                            rectangles[i][j].setFill(COLORS.getColor4());
-                            break;
-                        case 8:
-                            rectangles[i][j].setFill(COLORS.getColor8());
-                            break;
-                        case 16:
-                            rectangles[i][j].setFill(COLORS.getColor16());
-                            break;
-                        case 32:
-                            rectangles[i][j].setFill(COLORS.getColor32());
-                            break;
-                        case 64:
-                            rectangles[i][j].setFill(COLORS.getColor64());
-                            break;
-                        case 128:
-                            rectangles[i][j].setFill(COLORS.getColor128());
-                            break;
-                        case 256:
-                            rectangles[i][j].setFill(COLORS.getColor256());
-                            break;
-                        case 512:
-                            rectangles[i][j].setFill(COLORS.getColor512());
-                            break;
-                        case 1024:
-                            rectangles[i][j].setFill(COLORS.getColor1024());
-                            break;
-                        case 2048:
-                            rectangles[i][j].setFill(COLORS.getColor2048());
-                    }
+                    coloringRectangle(i, j);
                 }
             }
         }
         score.setText("Score: ".concat(Integer.toString(Game.getCurrentGame().getScore())));
         initializeEmpty();
+    }
+
+    void coloringRectangle(int i, int j) {
+        switch (Game.getCurrentGame().getBoard()[i][j].getValue()) {
+            case 2:
+                rectangles[i][j].setFill(COLORS.getColor2());
+                break;
+            case 4:
+                rectangles[i][j].setFill(COLORS.getColor4());
+                break;
+            case 8:
+                rectangles[i][j].setFill(COLORS.getColor8());
+                break;
+            case 16:
+                rectangles[i][j].setFill(COLORS.getColor16());
+                break;
+            case 32:
+                rectangles[i][j].setFill(COLORS.getColor32());
+                break;
+            case 64:
+                rectangles[i][j].setFill(COLORS.getColor64());
+                break;
+            case 128:
+                rectangles[i][j].setFill(COLORS.getColor128());
+                break;
+            case 256:
+                rectangles[i][j].setFill(COLORS.getColor256());
+                break;
+            case 512:
+                rectangles[i][j].setFill(COLORS.getColor512());
+                break;
+            case 1024:
+                rectangles[i][j].setFill(COLORS.getColor1024());
+                break;
+            case 2048:
+                rectangles[i][j].setFill(COLORS.getColor2048());
+        }
     }
 
     private void initializeEmpty() {

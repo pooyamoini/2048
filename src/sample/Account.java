@@ -6,21 +6,31 @@ import java.util.Collections;
 class Account implements Comparable {
     private int highScore;
     private String userName;
+    private String passWord;
     private static ArrayList<Account> accounts = new ArrayList<>();
     private static Account currentAccount;
 
-    private Account(String userName) {
+    private Account(String userName, String passWord) {
         this.highScore = 0;
         this.userName = userName;
+        this.passWord = passWord;
     }
 
-    static boolean addAccount(String userName) {
+    static boolean addAccount(String userName, String passWord) {
         for (Account account1 : accounts) {
             if (account1.userName.equals(userName))
                 return false;
         }
-        Account account = new Account(userName);
+        Account account = new Account(userName, passWord);
         accounts.add(account);
+        return true;
+    }
+
+    static boolean checkCorrectPassWord(String userName, String passWord) {
+        for (Account account : accounts) {
+            if (account.userName.equals(userName))
+                return account.passWord.equals(passWord);
+        }
         return true;
     }
 
@@ -45,9 +55,9 @@ class Account implements Comparable {
         return true;
     }
 
-    static boolean login(String userName) {
+    static boolean login(String userName, String passWord) {
         for (Account account : accounts) {
-            if (account.getUserName().equals(userName)) {
+            if (account.getUserName().equals(userName) && account.passWord.equals(passWord)) {
                 currentAccount = account;
                 return true;
             }
