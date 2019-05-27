@@ -80,13 +80,13 @@ class PlayDisplay {
 
     private void initializeScore() {
         scenePlay = new Scene(root, 500 * Game.getCurrentGame().getDimensions() / 4f, 500 * Game.getCurrentGame().getDimensions() / 4f);
-        score.setX(scenePlay.getWidth() / 2 - 10);
-        score.setY(scenePlay.getHeight() - Game.getCurrentGame().getDimensions() * 10);
+        score.setX(scenePlay.getWidth() / 2 + 20);
+        score.setY(scenePlay.getHeight() - Game.getCurrentGame().getDimensions() * 10 + 10);
         if (Game.getCurrentGame().getDimensions() == 3)
             score.setY(scenePlay.getHeight() - 20);
-        score.setScaleX(1.8);
-        score.setScaleY(1.8);
-        score.setStroke(Color.BLACK);
+        score.setScaleX(1.2);
+        score.setScaleY(1.2);
+        score.setFill(Color.BLACK);
         root.getChildren().add(score);
     }
 
@@ -152,7 +152,7 @@ class PlayDisplay {
         initializeEmpty();
     }
 
-    void coloringRectangle(int i, int j) {
+    private void coloringRectangle(int i, int j) {
         switch (Game.getCurrentGame().getBoard()[i][j].getValue()) {
             case 2:
                 rectangles[i][j].setFill(COLORS.getColor2());

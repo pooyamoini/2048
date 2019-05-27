@@ -10,6 +10,10 @@ class Account implements Comparable {
     private static ArrayList<Account> accounts = new ArrayList<>();
     private static Account currentAccount;
 
+    static {
+        accounts.add(new Account("root", "root"));
+    }
+
     private Account(String userName, String passWord) {
         this.highScore = 0;
         this.userName = userName;
